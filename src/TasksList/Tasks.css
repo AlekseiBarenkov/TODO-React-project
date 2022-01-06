@@ -1,0 +1,19 @@
+.task-done> label {
+    display: none;
+}
+
+.task-done> .tasks-list__title {
+    text-decoration: line-through;
+    margin: 0;
+}
+
+.tasks-list__title {
+    margin: 0 20px 0 20px;
+    display: inline-block;
+    max-width: 200px;
+    width: 100%;
+}
+
+.tasks-list__del-btn {
+    margin-left: 20px;
+}
