@@ -9,6 +9,23 @@ class Tasks extends React.Component {
         this.state = {
             tasks: [
                 
+            ],
+            buttons: [
+                {
+                    title : 'Все задачи',
+                    className : 'nav-row__btn nav-row__btn--active',
+                    id : 'btn_1'
+                },
+                {
+                    title : 'Текущие задачи',
+                    className : 'nav-row__btn',
+                    id : 'btn_2'
+                },
+                {
+                    title : 'Завершенные задачи',
+                    className : 'nav-row__btn',
+                    id : 'btn_3'
+                }
             ]
         };
 
@@ -17,6 +34,9 @@ class Tasks extends React.Component {
         this.sortTasks = this.sortTasks.bind(this);
         this.makeHotTask = this.makeHotTask.bind(this);
         this.clearTask = this.clearTask.bind(this);
+        this.activateTaskList = this.activateTaskList.bind(this);
+        this.refTasksButtons = React.createRef();
+        this.refTasksButtons.current = [];
     }
 
 
@@ -25,8 +45,6 @@ class Tasks extends React.Component {
         if (temp) {
             this.setState({ tasks : temp});
         }
-
-       console.log(temp);
     }
 
     componentDidUpdate() {
@@ -84,66 +102,100 @@ class Tasks extends React.Component {
         tasksList = this.state.tasks.filter(item => item.id !== +findIndex);
         this.setState({ tasks : tasksList });
     }
-    
+
+    activateTaskList(e) {
+        this.setState(state => {
+            let {buttons} = state;
+            for (let item of buttons) {
+                if(item.id === e.target.id) {
+                    item.className = 'nav-row__btn nav-row__btn--active';
+                } else {item.className = 'nav-row__btn';}
+            }
+            return state;
+        });
+    }
 
     render () {
         const {tasks} = this.state;
+        const {buttons} = this.state;
         const hotTasksList = this.sortTasks(tasks.filter(task => (!task.checked && task.hot)));
         const currentTasksList = this.sortTasks(tasks.filter(task => (!task.checked && !task.hot)));
         const finishedTasksList = this.sortTasks(tasks.filter(task => task.checked));
 
         return (
-            <>
+            <>  
                 <Input updateData={this.updateData}/>
                 <h2 className='title'>Всего задач: {hotTasksList.length + currentTasksList.length + finishedTasksList.length}, из них выполнено: {finishedTasksList.length}</h2>
-                <div className="all-tasks">
-                    <h3 className='subtitle'>Все задачи</h3>
-                    <ol className="tasks-list">
-                        {[...hotTasksList, ...currentTasksList, ...finishedTasksList].map(task => 
-                        <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
-                            <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
-                                Важно!
-                                <input type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
-                            </label>
-                                <p className="tasks-list__title">{task.title}</p>
-                            <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
-                                <input type="checkbox" id={task.id} onChange={this.completeTheTask}/>
-                                Готово
-                            </label>
-                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
-                        </li>)}
-                    </ol>
+                <div className="nav-row">
+                    {
+                        buttons.map(({title, className, id}) => {
+                            return (
+                                <button key={id} className={className} id={id} onClick={this.activateTaskList}>{title}</button>
+                                
+                            )
+                        })
+                    }
                 </div>
-                <div className="current-tasks">
-                    <h3 className='subtitle'>Текущие задачи</h3>
-                    <ol className="tasks-list">
-                        {[...hotTasksList, ...currentTasksList].map(task => 
-                        <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
-                            <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
-                                Важно!
-                                <input type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
-                            </label>
-                                <p className="tasks-list__title">{task.title}</p>
-                            <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
-                                <input type="checkbox" id={task.id} onChange={this.completeTheTask}/>
-                                Готово
-                            </label>
-                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
-                        </li>)}
-                    </ol>
-                </div>
-                <div className="complete-tasks">
-                    <h3 className='subtitle'>Завершенные задачи</h3>
-                    <ol className="tasks-list">
-                        {[...finishedTasksList].map(task => 
-                        <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
-                                <p className="tasks-list__title">{task.title}</p>
-                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
-                        </li>)}
-                    </ol>
+                <div>
+                    {
+                        buttons.map(({title, className}) => {
+                            if (className === 'nav-row__btn nav-row__btn--active' && title === 'Все задачи') {
+                                return (
+                                    <div key={title} className="tasks-box" id='all'>
+                                        <ol className="tasks-list">
+                                            {[...hotTasksList, ...currentTasksList, ...finishedTasksList].map(task => 
+                                            <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
+                                                <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
+                                                    Важно!
+                                                    <input type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
+                                                </label>
+                                                    <p className="tasks-list__title">{task.title}</p>
+                                                <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
+                                                    <input type="checkbox" id={task.id} onChange={this.completeTheTask}/>
+                                                    Готово
+                                                </label>
+                                                <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
+                                            </li>)}
+                                        </ol>
+                                    </div>
+                                )
+                            } else if (className === 'nav-row__btn nav-row__btn--active' && title === 'Текущие задачи') {
+                                return (
+                                    <div  key={title} className="tasks-box" id='current'>
+                                        <ol className="tasks-list">
+                                            {[...hotTasksList, ...currentTasksList].map(task => 
+                                            <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
+                                                <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
+                                                    Важно!
+                                                    <input type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
+                                                </label>
+                                                    <p className="tasks-list__title">{task.title}</p>
+                                                <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
+                                                    <input type="checkbox" id={task.id} onChange={this.completeTheTask}/>
+                                                    Готово
+                                                </label>
+                                                <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
+                                            </li>)}
+                                        </ol>
+                                    </div>
+                                )
+                            } else if (className === 'nav-row__btn nav-row__btn--active' && title === 'Завершенные задачи') {
+                                return (
+                                    <div  key={title} className="tasks-box" id='finished'>
+                                        <ol className="tasks-list">
+                                            {[...finishedTasksList].map(task => 
+                                            <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
+                                                    <p className="tasks-list__title">{task.title}</p>
+                                                <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
+                                            </li>)}
+                                        </ol>
+                                    </div>
+                                )
+                            }
+                        })
+                    }
                 </div>
             </>
-            
         );
     }
 }

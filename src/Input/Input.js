@@ -20,7 +20,6 @@ class Input extends React.Component {
             }
         }
 
-        console.log(this.tasksList);
     }
     keyGen(min, max, arr) {
         let num = min + Math.random() * (max + 1 - min);
@@ -99,7 +98,6 @@ class Input extends React.Component {
     }
     
     render () {
-        console.log(this.tasksList);
         return (
             <div className="input">
                 <input type="text" className='input__field' ref={this.refInputTask}/>
