@@ -86,11 +86,20 @@ class Tasks extends React.Component {
                 if (this.state.tasks[key].id === +this.findIndexNumFromStr(e.target.id)) return key;
             }
         };
-        this.setState(state => {
-            let {tasks} = state;
-            tasks[index()].hot = true;
-            return state;
-        });
+        if(this.state.tasks[index()].hot) {
+            this.setState(state => {
+                let {tasks} = state;
+                tasks[index()].hot = false;
+                return state;
+            });
+        } else {
+            this.setState(state => {
+                let {tasks} = state;
+                tasks[index()].hot = true;
+                return state;
+            });
+        }
+        
     }
 
     sortTasks(tasksList) {
