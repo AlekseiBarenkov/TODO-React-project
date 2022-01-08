@@ -1,4 +1,4 @@
-.task-done> label {
+.task-done > label, .task-done> .tasks-list__edit-btn {
     display: none;
 }
 
@@ -16,4 +16,26 @@
 
 .tasks-list__del-btn {
     margin-left: 20px;
+}
+
+.tasks-list__edit-box {
+    max-height: 0;
+    transition: .1s ease-in-out;
+}
+
+.tasks-list__edit-box > textarea, .tasks-list__edit-box > button {
+    overflow: hidden;
+    max-height: inherit;
+}
+
+.tasks-list__edit-box > textarea {
+    border: 0;
+}
+
+.tasks-list__edit-box--active {
+    max-height: 100px;
+}
+
+.tasks-list__edit-box--active > textarea {
+    border: 1px solid black;
 }
