@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './Input.css';
 class Input extends React.Component {
     constructor() {
         super();
@@ -19,7 +19,6 @@ class Input extends React.Component {
                 this.tasksList.push(item);
             }
         }
-
     }
     keyGen(min, max, arr) {
         let num = min + Math.random() * (max + 1 - min);
@@ -67,6 +66,12 @@ class Input extends React.Component {
         let taskText = this.refInputTask.current.value.trim();
         let taskObj = {};
         let key = this.keyGen(0, 100, this.tasksList);
+        if (this.tasksList.length !== this.props.tasks.length) {
+            this.tasksList = [];
+            this.props.tasks.forEach(el => {
+                this.tasksList.push(el);
+            });
+        }
 
         if (key === undefined) {
             alert('Превышен предел количества допустимых задач');
@@ -100,7 +105,7 @@ class Input extends React.Component {
     render () {
         return (
             <div className="input">
-                <input type="text" className='input__field' ref={this.refInputTask}/>
+                <input type="text" className='input__field' placeholder='Введите название задачи' ref={this.refInputTask} onKeyPress={(e) => {if(e.code === "Enter" || e.code === "NumpadEnter") this.addTask()}}/>
                 <button className='input__add-btn' onClick={() => {this.addTask()}}>Добавить</button>
                 <button className='input__clear-btn' onClick={() => {this.clearTasksList()}}>Очистить все</button>
             </div>

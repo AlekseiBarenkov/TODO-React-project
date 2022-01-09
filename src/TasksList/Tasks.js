@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from '../Input/Input';
-import styles from './Tasks.css';
+import './Tasks.css';
 
 class Tasks extends React.Component {
     constructor() {
@@ -185,8 +185,11 @@ class Tasks extends React.Component {
 
         return (
             <>  
-                <Input updateData={this.updateData}/>
-                <h2 className='title'>Всего задач: {hotTasksList.length + currentTasksList.length + finishedTasksList.length}, из них выполнено: {finishedTasksList.length}</h2>
+                <header className='header'>
+                    <h1 className='header__title'>My ToDo</h1>
+                </header>
+                <Input updateData={this.updateData} tasks={this.state.tasks}/>
+                <h2 className='status-title'>Всего задач: {hotTasksList.length + currentTasksList.length + finishedTasksList.length}, из них выполнено: {finishedTasksList.length}</h2>
                 <div className="nav-row">
                     {
                         buttons.map(({title, className, id}) => {
@@ -205,9 +208,8 @@ class Tasks extends React.Component {
                                     <ol className="tasks-list">
                                         {((className === 'nav-row__btn nav-row__btn--active' && title === 'Все задачи') ? [...hotTasksList, ...currentTasksList, ...finishedTasksList] : (className === 'nav-row__btn nav-row__btn--active' && title === 'Текущие задачи') ? [...hotTasksList, ...currentTasksList] : (className === 'nav-row__btn nav-row__btn--active' && title === 'Завершенные задачи') ? [...finishedTasksList] : []).map(task => 
                                         <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
+                                            <input className='checkbox-hot' type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
                                             <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
-                                                Важно!
-                                                <input type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
                                             </label>
                                                 <p className="tasks-list__title">{task.title}</p>
                                                 
@@ -215,8 +217,8 @@ class Tasks extends React.Component {
                                                 <input type="checkbox" id={task.id} onChange={this.completeTheTask}/>
                                                 Готово
                                             </label>
-                                            <button id={`edit-title_${task.id}`} className='tasks-list__edit-btn' onClick={this.editTask}>Редактировать</button>
-                                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}>Удалить</button>
+                                            <button id={`edit-title_${task.id}`} className='tasks-list__edit-btn' onClick={this.editTask}><span className="material-icons">edit</span></button>
+                                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}><span className="material-icons">delete</span></button>
                                             <div className="tasks-list__edit-box" id={`editBox_${task.id}`} ref={this.addRefEditBox} >
                                                     <textarea defaultValue={task.title} id={`textarea_${task.id}`} cols="30" rows="10" ref={this.addRefTextArea}></textarea>
                                                     <button id={`saveBtn_${task.id}`} onClick={this.saveChangesTask}>Сохранить</button>

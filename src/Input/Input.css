@@ -1,0 +1,25 @@
+.input {
+    margin-bottom: 20px;
+}
+
+.input__field {
+    font-size: 20px;
+    padding: 0 5px;
+    max-width: 390px;
+    width: 100%;
+    margin-right: 10px;
+    display: inline-block;
+    height: 37px;
+    border-radius: 10px;
+}
+
+.input__add-btn {
+    margin-right: 10px;
+}
+
+.input__add-btn, .input__clear-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 17px;
+    border-radius: 15px;
+}

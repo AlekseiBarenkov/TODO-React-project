@@ -27,6 +27,7 @@ html, body {
     font-size: 100%;
     line-height: 1;
     font-size: 14px;
+    user-select: none;
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -38,6 +39,7 @@ input, button, textarea {
 
 button {
     cursor: pointer;
+    font-family: 'Alegreya', serif;
 }
 
 button::-moz-focus-inner {
@@ -68,8 +70,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ===================================================================== */
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 15px;
+    font-family: 'Cormorant', serif;
+    font-size: 20px;
+    max-width: 680px;
+    margin: 25px auto 0;
+    padding: 15px 25px;
     width: 100%;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 10px rgb(80 66 34 / 20%);
 }

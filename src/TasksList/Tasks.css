@@ -1,3 +1,37 @@
+.header {
+    margin-bottom: 25px;
+    background: url(../../public/img/header/checklist.png) 100% 0/auto 100% no-repeat, url(../../public/img/header/checklist.png) 0 0/auto 100% no-repeat;
+    min-height: 100px;
+
+}
+.header__title {
+    font-family: 'Pattaya', sans-serif;
+    font-size: 100px;
+    text-align: center;
+}
+
+.status-title {
+    margin-bottom: 25px;
+    font-family: 'Cormorant Infant', serif;
+    font-size: 30px;
+}
+
+.nav-row {
+    margin-bottom: 25px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.nav-row__btn {
+    min-height: 40px;
+    height: 100%;
+    display: block;
+    flex: 0 1 33%;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
 .task-done > label, .task-done> .tasks-list__edit-btn {
     display: none;
 }
@@ -39,4 +73,63 @@
 .tasks-list__edit-box--active > textarea {
     border: 1px solid black;
 }
+
+.tasks-list__item {
+    min-height: 55px;
+    /*display: flex;*/
+}
+
+
+
+/* *======================Checkbox hot task=================== */
+
+.checkbox-hot {
+    opacity: 0;
+}
+
+.tasks-list__label-hot-input{
+    position: relative;
+}
+.tasks-list__label-hot-input::before, .tasks-list__label-hot-input::after {
+    position: absolute;
+    content: '';
+    display: inline-block;
+}
+
+.tasks-list__label-hot-input::before {
+    
+    
+    height: 50px;
+    width: 50px;
+    
+    border: 1px solid;
+
+    top: 0px;
+    left: 0px;
+
+    border: 1px solid black;
+    border-radius: 50%;
+
+    background: url(../../public/img/tasks/danger.png) no-repeat;
+}
+
+.tasks-list__label-hot-input::after {
+    height: 50px;
+    width: 50px;
+
+    border-radius: 50%;
+    left: 0px;
+    top: 0px;
+    
+}
+
+.checkbox-hot + .tasks-list__label-hot-input::after {
+    content: none;
+}
+
+.checkbox-hot:checked + .tasks-list__label-hot-input::after {
+    content: '';
+}
+
+/** =================================================== */
 
