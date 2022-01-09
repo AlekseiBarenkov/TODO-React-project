@@ -106,8 +106,11 @@ class Input extends React.Component {
         return (
             <div className="input">
                 <input type="text" className='input__field' placeholder='Введите название задачи' ref={this.refInputTask} onKeyPress={(e) => {if(e.code === "Enter" || e.code === "NumpadEnter") this.addTask()}}/>
-                <button className='input__add-btn' onClick={() => {this.addTask()}}>Добавить</button>
-                <button className='input__clear-btn' onClick={() => {this.clearTasksList()}}>Очистить все</button>
+                <div className="input__buttons-box">
+                    <button className='input__add-btn' onClick={() => {this.addTask()}}>Добавить</button>
+                    <button className='input__clear-btn' onClick={() => {this.clearTasksList()}}>Очистить все</button>
+                </div>
+                
             </div>
         );
     }

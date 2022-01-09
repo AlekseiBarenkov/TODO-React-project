@@ -177,6 +177,7 @@ class Tasks extends React.Component {
         this.editTask(e);
     }
     render () {
+        let num = 0;
         const {tasks} = this.state;
         const {buttons} = this.state;
         const hotTasksList = this.sortTasks(tasks.filter(task => (!task.checked && task.hot)));
@@ -188,8 +189,11 @@ class Tasks extends React.Component {
                 <header className='header'>
                     <h1 className='header__title'>My ToDo</h1>
                 </header>
+
                 <Input updateData={this.updateData} tasks={this.state.tasks}/>
-                <h2 className='status-title'>Всего задач: {hotTasksList.length + currentTasksList.length + finishedTasksList.length}, из них выполнено: {finishedTasksList.length}</h2>
+
+                <h2 className='tasks-lists-title'>Мои задачи</h2>
+                
                 <div className="nav-row">
                     {
                         buttons.map(({title, className, id}) => {
@@ -200,29 +204,29 @@ class Tasks extends React.Component {
                         })
                     }
                 </div>
-                <div>
+                
+                <div className='tasks-lists-container'>
                     {
                         buttons.map(({title, className}) => {
                             return (
                                 <div key={title} className="tasks-box">
                                     <ol className="tasks-list">
                                         {((className === 'nav-row__btn nav-row__btn--active' && title === 'Все задачи') ? [...hotTasksList, ...currentTasksList, ...finishedTasksList] : (className === 'nav-row__btn nav-row__btn--active' && title === 'Текущие задачи') ? [...hotTasksList, ...currentTasksList] : (className === 'nav-row__btn nav-row__btn--active' && title === 'Завершенные задачи') ? [...finishedTasksList] : []).map(task => 
-                                        <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '')}>
+                                        <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '') + ((task.hot && !task.checked) ? ' task-hot' : '')}>
                                             <input className='checkbox-hot' type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
                                             <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
                                             </label>
-                                                <p className="tasks-list__title">{task.title}</p>
-                                                
+                                            <p id={`title_${task.id}`} className="tasks-list__title" onClick={this.editTask}>{`${num +=1}. ${task.title}`}</p>
+                                            <input className='checkbox-done' type="checkbox" id={task.id} onChange={this.completeTheTask}/>
                                             <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
-                                                <input type="checkbox" id={task.id} onChange={this.completeTheTask}/>
-                                                Готово
                                             </label>
-                                            <button id={`edit-title_${task.id}`} className='tasks-list__edit-btn' onClick={this.editTask}><span className="material-icons">edit</span></button>
-                                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}><span className="material-icons">delete</span></button>
+                                            <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}></button>
                                             <div className="tasks-list__edit-box" id={`editBox_${task.id}`} ref={this.addRefEditBox} >
-                                                    <textarea defaultValue={task.title} id={`textarea_${task.id}`} cols="30" rows="10" ref={this.addRefTextArea}></textarea>
-                                                    <button id={`saveBtn_${task.id}`} onClick={this.saveChangesTask}>Сохранить</button>
-                                                    <button id={`cancelBtn_${task.id}`} onClick={this.cancelChangesTask}>Отмена</button>
+                                                    <textarea defaultValue={task.title} id={`textarea_${task.id}`} cols="80" rows="3" ref={this.addRefTextArea}></textarea>
+                                                    <div className="tasks-list__edit-box-buttons">
+                                                        <button className="tasks-list__btn-save" id={`saveBtn_${task.id}`} onClick={this.saveChangesTask}>Сохранить</button>
+                                                        <button className="tasks-list__btn-cancel" id={`cancelBtn_${task.id}`} onClick={this.cancelChangesTask}>Отмена</button>
+                                                    </div>
                                             </div>
                                         </li>)}
                                     </ol>
@@ -231,6 +235,7 @@ class Tasks extends React.Component {
                         })
                     }
                 </div>
+                <h2 className='status-title'>Всего задач: {hotTasksList.length + currentTasksList.length + finishedTasksList.length}, из них выполнено: {finishedTasksList.length}</h2>
             </>
         );
     }

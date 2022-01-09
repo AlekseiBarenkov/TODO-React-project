@@ -1,25 +1,50 @@
 .input {
-    margin-bottom: 20px;
+    margin-bottom: 45px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .input__field {
     font-size: 20px;
     padding: 0 5px;
-    max-width: 390px;
+    max-width: 565px;
     width: 100%;
-    margin-right: 10px;
     display: inline-block;
-    height: 37px;
+    height: 41px;
     border-radius: 10px;
+    transition: all .2s;
+    border: 2px solid rgb(131, 123, 123)
+}
+
+.input__field:hover {
+    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    border: 2px solid rgba(200, 255, 203, 1)
+}
+
+.input__field:active {
+    border: 2px solid rgba(200, 255, 203, 1);
+    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
 }
 
 .input__add-btn {
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .input__add-btn, .input__clear-btn {
     display: inline-block;
     padding: 5px 10px;
-    font-size: 17px;
+    font-size: 20px;
     border-radius: 15px;
+    transition: all .2s;
+    border: 2px solid rgb(131, 123, 123);
+    background-color: rgb(233 238 231);
+}
+
+.input__add-btn:hover, .input__clear-btn:hover {
+    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    transform: translateY(-2px);
+}
+
+.input__add-btn:active, .input__clear-btn:active {
+    transform: translateY(1px);
 }
