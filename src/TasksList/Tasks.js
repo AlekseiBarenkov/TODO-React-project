@@ -63,17 +63,12 @@ class Tasks extends React.Component {
     }
     
     completeTheTask(e) {
-        const index = () => {
-            for (let key in this.state.tasks) {
-                if (this.state.tasks[key].id === +e.target.id) return key;
-            }
-        };
-        this.setState(state => {
-            let {tasks} = state;
-            tasks[index()].checked = true;
-            return state;
+        this.setState({
+            tasks: this.state.tasks.map(item => {
+                if (item.id === +e.target.id) item.checked = true;
+                return item;
+            })
         });
-
     }
 
     findIndexNumFromStr (str) {
@@ -81,25 +76,13 @@ class Tasks extends React.Component {
     }
 
     makeHotTask(e) {
-        const index = () => {
-            for (let key in this.state.tasks) {
-                if (this.state.tasks[key].id === +this.findIndexNumFromStr(e.target.id)) return key;
-            }
-        };
-        if(this.state.tasks[index()].hot) {
-            this.setState(state => {
-                let {tasks} = state;
-                tasks[index()].hot = false;
-                return state;
-            });
-        } else {
-            this.setState(state => {
-                let {tasks} = state;
-                tasks[index()].hot = true;
-                return state;
-            });
-        }
-        
+        this.setState({
+            tasks: this.state.tasks.map(item => {
+                if (item.id === +this.findIndexNumFromStr(e.target.id) && !item.hot) {item.hot = true;}
+                else if (item.id === +this.findIndexNumFromStr(e.target.id) && item.hot) {item.hot = false;}
+                return item;
+            })
+        });
     }
 
     sortTasks(tasksList) {
@@ -117,20 +100,17 @@ class Tasks extends React.Component {
         return sortTasks;
     }
     clearTask(e) {
-        let tasksList = [];
-        tasksList = this.state.tasks.filter(item => item.id !== +this.findIndexNumFromStr(e.target.id));
-        this.setState({ tasks : tasksList });
+        this.setState({
+            tasks: this.state.tasks.filter(item => item.id !== +this.findIndexNumFromStr(e.target.id))
+        });
     }
 
     activateTaskList(e) {
-        this.setState(state => {
-            let {buttons} = state;
-            for (let item of buttons) {
-                if(item.id === e.target.id) {
-                    item.className = 'nav-row__btn nav-row__btn--active';
-                } else {item.className = 'nav-row__btn';}
-            }
-            return state;
+        this.setState({
+            buttons: this.state.buttons.map(item => {
+                (item.id === e.target.id) ? item.className = 'nav-row__btn nav-row__btn--active' : item.className = 'nav-row__btn';
+                return item;
+            })
         });
     }
 
@@ -148,25 +128,23 @@ class Tasks extends React.Component {
 
     editTask(e) {
         this.refEditBox.current.forEach(element => {
-            (this.findIndexNumFromStr(element.id) === this.findIndexNumFromStr(e.target.id) && element.className !== 'tasks-list__edit-box tasks-list__edit-box--active') ? element.className = 'tasks-list__edit-box tasks-list__edit-box--active' : element.className = 'tasks-list__edit-box';
+            (e.target.className !== 'tasks-list__title tasks-list__title-done' && this.findIndexNumFromStr(element.id) === this.findIndexNumFromStr(e.target.id) && element.className !== 'tasks-list__edit-box tasks-list__edit-box--active') ? element.className = 'tasks-list__edit-box tasks-list__edit-box--active' : element.className = 'tasks-list__edit-box';
             }
-            
         );
     }
+
     saveChangesTask(e) {
-        let textAreaValue = '';
         this.refTextArea.current.forEach(element => {
-            if(this.findIndexNumFromStr(element.id) === this.findIndexNumFromStr(e.target.id)) textAreaValue = element.value.trim();
-        });
-        this.setState(state => {
-            let {tasks} = state;
-            for (let item of tasks) {
-                if(item.id === +this.findIndexNumFromStr(e.target.id)) {
-                    item.title = textAreaValue[0].toUpperCase() + textAreaValue.slice(1);
-                }
+            if(this.findIndexNumFromStr(element.id) === this.findIndexNumFromStr(e.target.id)) {
+                this.setState({
+                    tasks: this.state.tasks.map(item => {
+                        if(item.id === +this.findIndexNumFromStr(e.target.id)) item.title = element.value.trim()[0].toUpperCase() + element.value.slice(1);
+                        return item;
+                    })
+                });
             }
-            return state;
         });
+
         this.editTask(e);
     }
 
@@ -216,7 +194,7 @@ class Tasks extends React.Component {
                                             <input className='checkbox-hot' type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
                                             <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
                                             </label>
-                                            <p id={`title_${task.id}`} className="tasks-list__title" onClick={this.editTask}>{`${num +=1}. ${task.title}`}</p>
+                                            <p id={`title_${task.id}`} className={"tasks-list__title" + (task.checked ? ' tasks-list__title-done' : '')}  onClick={this.editTask}>{`${num +=1}. ${task.title}`}</p>
                                             <input className='checkbox-done' type="checkbox" id={task.id} onChange={this.completeTheTask}/>
                                             <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
                                             </label>

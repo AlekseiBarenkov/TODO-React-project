@@ -7,9 +7,6 @@ class Input extends React.Component {
         this.tasksList = [];
         this.refInputTask = React.createRef();
         this.addTask = this.addTask.bind(this);
-        this.keyGen = this.keyGen.bind(this);
-        this.findingKeyMatches = this.findingKeyMatches.bind(this);
-        this.keyLimitReached = this.keyLimitReached.bind(this);
         this.findSameTasks = this.findSameTasks.bind(this);
     }
     componentDidMount() {
@@ -19,36 +16,6 @@ class Input extends React.Component {
                 this.tasksList.push(item);
             }
         }
-    }
-    keyGen(min, max, arr) {
-        let num = min + Math.random() * (max + 1 - min);
-
-        if (this.findingKeyMatches(num, arr) && (this.keyLimitReached(max, arr) === false)) {
-            return this.keyGen(min, max, arr);
-        } else if (this.keyLimitReached(max, arr)) {
-            return;
-        }
-        return Math.floor(num);
-    }
-
-    findingKeyMatches(key, arr) {
-        let matches = false;
-
-        arr.forEach(el => {
-            if (el.id === Math.floor(key)) {
-                matches = true;
-            }
-        });
-        return matches;
-    }
-
-    keyLimitReached(keyMaxValue, arr) {
-        let status = false;
-
-        if (arr.length >= keyMaxValue) {
-            status = true;
-        }
-        return status;
     }
 
     findSameTasks(str, arr) {
@@ -65,7 +32,6 @@ class Input extends React.Component {
     addTask() {
         let taskText = this.refInputTask.current.value.trim();
         let taskObj = {};
-        let key = this.keyGen(0, 100, this.tasksList);
         if (this.tasksList.length !== this.props.tasks.length) {
             this.tasksList = [];
             this.props.tasks.forEach(el => {
@@ -73,21 +39,19 @@ class Input extends React.Component {
             });
         }
 
-        if (key === undefined) {
-            alert('Превышен предел количества допустимых задач');
-        } else if (taskText === '') {
+        if (taskText === '') {
             alert('Введите текст задачи');
         } else if (this.findSameTasks(taskText, this.tasksList)){
             alert('Такая задача уже есть');
         } else {
-            taskObj.id = key;
+            taskObj.id = Date.now();
             taskObj.title = taskText[0].toUpperCase() + taskText.slice(1);
             taskObj.checked = false;
             taskObj.hot = false;
             taskObj.done = false;
             this.tasksList.push(taskObj);
         }
-        
+
         this.refInputTask.current.value = '';
         
         this.updateTasks();
