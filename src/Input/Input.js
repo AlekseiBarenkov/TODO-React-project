@@ -32,28 +32,23 @@ class Input extends React.Component {
     addTask() {
         let taskText = this.refInputTask.current.value.trim();
         let taskObj = {};
+
         if (this.tasksList.length !== this.props.tasks.length) {
             this.tasksList = [];
             this.props.tasks.forEach(el => {
                 this.tasksList.push(el);
             });
         }
-
-        if (taskText === '') {
-            alert('Введите текст задачи');
-        } else if (this.findSameTasks(taskText, this.tasksList)){
-            alert('Такая задача уже есть');
-        } else {
-            taskObj.id = Date.now();
-            taskObj.title = taskText[0].toUpperCase() + taskText.slice(1);
-            taskObj.checked = false;
-            taskObj.hot = false;
-            taskObj.done = false;
-            this.tasksList.push(taskObj);
-        }
-
-        this.refInputTask.current.value = '';
+        if (taskText === '') return alert('Введите текст задачи');
+        if (this.findSameTasks(taskText, this.tasksList)) return alert('Такая задача уже есть');
         
+        taskObj.id = Date.now();
+        taskObj.title = taskText[0].toUpperCase() + taskText.slice(1);
+        taskObj.checked = false;
+        taskObj.hot = false;
+        taskObj.done = false;
+        this.tasksList.push(taskObj);
+        this.refInputTask.current.value = '';
         this.updateTasks();
     }
 
