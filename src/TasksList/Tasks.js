@@ -37,7 +37,6 @@ class Tasks extends React.Component {
                     darkTheme:
                         !state.darkTheme ? true : false,
                   }));
-                  console.log(this.state.darkTheme);
             }
         };
 
@@ -196,7 +195,7 @@ class Tasks extends React.Component {
                         <header className='header'>
                             <h1 className='header__title'>My ToDo</h1>
                         </header>
-                        <Input updateData={this.updateData} tasks={this.state.tasks}/>
+                        <Input updateData={this.updateData} tasks={tasks}/>
                         <div className="title">
                             <div className="toggle-theme">
                                 <ChangeThemeContext.Provider value={this.state}>
@@ -256,5 +255,6 @@ class Tasks extends React.Component {
         );
     }
 }
+
 
 export default Tasks;

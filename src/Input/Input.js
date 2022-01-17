@@ -1,5 +1,6 @@
 import React from 'react';
 import './Input.css';
+import PropTypes from 'prop-types';
 class Input extends React.Component {
     constructor() {
         super();
@@ -76,3 +77,7 @@ class Input extends React.Component {
 }
 
 export default Input;
+
+Input.propTypes = {
+    updateData: PropTypes.func
+};
