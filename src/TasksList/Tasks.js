@@ -67,7 +67,7 @@ class Tasks extends React.Component {
                 tasks : temp,
                 isLoading : true
             });
-            }, 2000);
+            }, 3000);
             
         }
     }
