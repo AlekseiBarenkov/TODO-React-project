@@ -23,15 +23,15 @@ function TasksList(props) {
   };
 
   const addRefTextArea = (e) => {
-      if (e && !refTextArea.current.includes(e)) {
-        refTextArea.current.push(e);
-      }
+    if (e && !refTextArea.current.includes(e)) {
+      refTextArea.current.push(e);
+    }
   };
 
   const editTask = (e) => {
     refEditBox.current.forEach(element => {
-        (e.target.className !== 'tasks-list__title tasks-list__title-done' && findIndexNumFromStr(element.id) === findIndexNumFromStr(e.target.id) && element.className !== 'tasks-list__edit-box tasks-list__edit-box--active') ? element.className = 'tasks-list__edit-box tasks-list__edit-box--active' : element.className = 'tasks-list__edit-box';
-        }
+      (e.target.className !== 'tasks-list__title tasks-list__title-done' && findIndexNumFromStr(element.id) === findIndexNumFromStr(e.target.id) && element.className !== 'tasks-list__edit-box tasks-list__edit-box--active') ? element.className = 'tasks-list__edit-box tasks-list__edit-box--active' : element.className = 'tasks-list__edit-box';
+      }
     );
   };
 
@@ -43,22 +43,21 @@ function TasksList(props) {
         return item;
       })
     );
-    
   };
 
   const completeTheTask = (e) => {
-      props.setTask(
-          props.tasksList.map(item => {
-              if (item.id === +e.target.id) item.checked = true;
-              return item;
-          })
-      );
+    props.setTask(
+      props.tasksList.map(item => {
+          if (item.id === +e.target.id) item.checked = true;
+          return item;
+      })
+    );
   };
 
   const clearTask = (e) => {
-      props.setTask(
-        props.tasksList.filter(item => item.id !== +findIndexNumFromStr(e.target.id))
-      );
+    props.setTask(
+      props.tasksList.filter(item => item.id !== +findIndexNumFromStr(e.target.id))
+    );
   };
 
   const saveChangesTask = (e) => {
@@ -72,7 +71,6 @@ function TasksList(props) {
         );
       }
     });
-
     editTask(e);
   };
 

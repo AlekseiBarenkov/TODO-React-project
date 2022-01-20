@@ -34,7 +34,6 @@ function App() {
   useEffect(()=>{
     localStorage.setItem('tasksList', JSON.stringify(tasksList));
     showCurrentTasks();
-    console.log(tasksList);
   },[tasksList, navButtons]);
 
   const findSameTasks = (str, arr) => {
@@ -70,8 +69,7 @@ function App() {
   };
 
   const sortTasks = (list) => {
-    const copyTasks = [...list];
-    const sortTasks = copyTasks.sort((a, b) => {
+    const sortTasks = [...list].sort((a, b) => {
         if (a.title > b.title) {
           return 1;
         }
