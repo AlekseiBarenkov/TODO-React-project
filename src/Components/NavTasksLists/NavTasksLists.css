@@ -1,0 +1,33 @@
+.nav-row {
+    margin-bottom: 40px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.nav-row__btn {
+    min-height: 40px;
+    height: 100%;
+    display: block;
+    flex: 0 1 33%;
+    border-radius: 10px;
+    font-size: 25px;
+    transition: all .2s;
+    border: 2px solid rgb(131, 123, 123);
+    background-color: rgb(233 238 231);
+}
+
+.nav-row__btn:hover {
+    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    transform: translateY(-2px);
+}
+
+.nav-row__btn:active {
+    transform: translateY(0px);
+}
+
+.nav-row__btn--active {
+    transform: translateY(-2px);
+    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    background-color:  rgb(204 255 175);
+}

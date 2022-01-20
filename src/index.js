@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tasks from './TasksList/Tasks';
+import App from '../src/Components/App/App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Tasks />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

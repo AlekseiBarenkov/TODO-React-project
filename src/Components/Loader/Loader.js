@@ -1,10 +1,7 @@
 import React from 'react';
 import './Loader.css';
 
-class Loader extends React.Component {
-    
-    
-    render () {
+function Loader () {
         return (
             <div className='loader-body'>
                 <svg className="filter" version="1.1">
@@ -25,7 +22,6 @@ class Loader extends React.Component {
                 </div>
             </div>
         );
-    }
 }
 
 export default Loader;

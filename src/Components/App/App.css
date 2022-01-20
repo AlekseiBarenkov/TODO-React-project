@@ -16,7 +16,6 @@ a:focus, a:active {
     outline: none;
 }
 
-/*Некоторые браузеры принимают эти теги за строчные*/
 nav, footer, header, aside {
     display: block;
 }
@@ -53,14 +52,6 @@ a, a:visited {
   
 a:hover {
     text-decoration: none;
-}
-
-ul li {
-    list-style: none;
-}
-
-img {
-    vertical-align: top;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -103,7 +94,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .wrapper.dark-theme .input__field {
     background-color: #9d998e;
-    color: var(--text-color);
 }
 
 .wrapper.dark-theme .input__field:hover, .wrapper.dark-theme .input__field:focus {
