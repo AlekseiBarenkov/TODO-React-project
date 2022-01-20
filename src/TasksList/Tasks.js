@@ -1,18 +1,16 @@
 import React from 'react';
 import Input from '../Input/Input';
+import Loader from '../Loader/Loader';
 import './Tasks.css';
 import {ChangeThemeContext} from '../Context/ChangeThemeContext';
+import HocLoader from '../Hoc/HocLoader';
 //const ChangeThemeContext = React.createContext();
 class Tasks extends React.Component {
     constructor() {
         super();
 
-        
-
         this.state = {
-            tasks: [
-                
-            ],
+            tasks: [],
             buttons: [
                 {
                     title : 'Все задачи',
@@ -31,8 +29,8 @@ class Tasks extends React.Component {
                 }
             ],
             darkTheme: false,
+            isLoading: false,
             handlerToggleTheme: this.handlerToggleTheme = () => {
-            
                 this.setState (state => ({
                     darkTheme:
                         !state.darkTheme ? true : false,
@@ -64,7 +62,13 @@ class Tasks extends React.Component {
     componentDidMount() {
         const temp = JSON.parse(window.localStorage.getItem('tasksList'));
         if (temp) {
-            this.setState({ tasks : temp});
+            setTimeout(() => {
+                this.setState({ 
+                tasks : temp,
+                isLoading : true
+            });
+            }, 3000);
+            
         }
     }
 
@@ -185,72 +189,73 @@ class Tasks extends React.Component {
 
     render () {
         let num = 0;
-        const {tasks, buttons} = this.state;
-        const {darkTheme} = this.state;
+        const {tasks, buttons, darkTheme, isLoading} = this.state;
 
         return (
             <>  
-                <div className={"wrapper" + (darkTheme ? ' dark-theme' : '')}>
-                    <div className="container">
-                        <header className='header'>
-                            <h1 className='header__title'>My ToDo</h1>
-                        </header>
-                        <Input updateData={this.updateData} tasks={tasks}/>
-                        <div className="title">
-                            <div className="toggle-theme">
-                                <ChangeThemeContext.Provider value={this.state}>
-                                    <ChangeThemeContext.Consumer>
-                                        {({handlerToggleTheme}) => (
-                                            <button className={"toggle-theme__btn" + (darkTheme ? ' dark-theme-active' : '')} onClick={handlerToggleTheme}></button>
-                                        )}
-                                    </ChangeThemeContext.Consumer>
-                                </ChangeThemeContext.Provider>
+                {HocLoader(isLoading, <Loader />,
+                    <div className={"wrapper" + (darkTheme ? ' dark-theme' : '')}>
+                        <div className="container">
+                            <header className='header'>
+                                <h1 className='header__title'>My ToDo</h1>
+                            </header>
+                            <Input updateData={this.updateData} tasks={this.state.tasks}/>
+                            <div className="title">
+                                <div className="toggle-theme">
+                                    <ChangeThemeContext.Provider value={this.state}>
+                                        <ChangeThemeContext.Consumer>
+                                            {({handlerToggleTheme}) => (
+                                                <button className={"toggle-theme__btn" + (darkTheme ? ' dark-theme-active' : '')} onClick={handlerToggleTheme}></button>
+                                            )}
+                                        </ChangeThemeContext.Consumer>
+                                    </ChangeThemeContext.Provider>
+                                </div>
+                                <h2 className='tasks-lists-title'>Мои задачи</h2>
                             </div>
-                            <h2 className='tasks-lists-title'>Мои задачи</h2>
+                            <div className="nav-row">
+                                {
+                                    buttons.map(({title, className, id}) => {
+                                        return (
+                                            <button key={id} className={className} id={id} onClick={this.activateTaskList}>{title}</button>
+                                            
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className='tasks-lists-container'>
+                                {
+                                    buttons.map(({title, className}) => {
+                                        return (
+                                            <div key={title} className="tasks-box">
+                                                <ol className="tasks-list">
+                                                    {this.showCurrentTasks(title, className).map(task => 
+                                                    <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '') + ((task.hot && !task.checked) ? ' task-hot' : '')}>
+                                                        <input className='checkbox-hot' type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
+                                                        <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
+                                                        </label>
+                                                        <p id={`title_${task.id}`} className={"tasks-list__title" + (task.checked ? ' tasks-list__title-done' : '')}  onClick={this.editTask}>{`${num +=1}. ${task.title}`}</p>
+                                                        <input className='checkbox-done' type="checkbox" id={task.id} onChange={this.completeTheTask}/>
+                                                        <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
+                                                        </label>
+                                                        <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}></button>
+                                                        <div className="tasks-list__edit-box" id={`editBox_${task.id}`} ref={this.addRefEditBox} >
+                                                                <textarea defaultValue={task.title} id={`textarea_${task.id}`} cols="80" rows="3" ref={this.addRefTextArea}></textarea>
+                                                                <div className="tasks-list__edit-box-buttons">
+                                                                    <button className="tasks-list__btn-save" id={`saveBtn_${task.id}`} onClick={this.saveChangesTask}>Сохранить</button>
+                                                                    <button className="tasks-list__btn-cancel" id={`cancelBtn_${task.id}`} onClick={this.cancelChangesTask}>Отмена</button>
+                                                                </div>
+                                                        </div>
+                                                    </li>)}
+                                                </ol>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <h2 className='status-title'>Всего задач: {tasks.length}, из них выполнено: {tasks.filter(task => task.checked).length}</h2>
                         </div>
-                        <div className="nav-row">
-                            {
-                                buttons.map(({title, className, id}) => {
-                                    return (
-                                        <button key={id} className={className} id={id} onClick={this.activateTaskList}>{title}</button>
-                                        
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className='tasks-lists-container'>
-                            {
-                                buttons.map(({title, className}) => {
-                                    return (
-                                        <div key={title} className="tasks-box">
-                                            <ol className="tasks-list">
-                                                {this.showCurrentTasks(title, className).map(task => 
-                                                <li key={task.id} className={"tasks-list__item" + (task.checked ? ' task-done' : '') + ((task.hot && !task.checked) ? ' task-hot' : '')}>
-                                                    <input className='checkbox-hot' type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''}  onChange={this.makeHotTask}/>
-                                                    <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`} >
-                                                    </label>
-                                                    <p id={`title_${task.id}`} className={"tasks-list__title" + (task.checked ? ' tasks-list__title-done' : '')}  onClick={this.editTask}>{`${num +=1}. ${task.title}`}</p>
-                                                    <input className='checkbox-done' type="checkbox" id={task.id} onChange={this.completeTheTask}/>
-                                                    <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}>
-                                                    </label>
-                                                    <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={this.clearTask}></button>
-                                                    <div className="tasks-list__edit-box" id={`editBox_${task.id}`} ref={this.addRefEditBox} >
-                                                            <textarea defaultValue={task.title} id={`textarea_${task.id}`} cols="80" rows="3" ref={this.addRefTextArea}></textarea>
-                                                            <div className="tasks-list__edit-box-buttons">
-                                                                <button className="tasks-list__btn-save" id={`saveBtn_${task.id}`} onClick={this.saveChangesTask}>Сохранить</button>
-                                                                <button className="tasks-list__btn-cancel" id={`cancelBtn_${task.id}`} onClick={this.cancelChangesTask}>Отмена</button>
-                                                            </div>
-                                                    </div>
-                                                </li>)}
-                                            </ol>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <h2 className='status-title'>Всего задач: {tasks.length}, из них выполнено: {tasks.filter(task => task.checked).length}</h2>
                     </div>
-                </div>
+                )}
             </>
         );
     }
