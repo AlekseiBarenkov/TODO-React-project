@@ -25,7 +25,6 @@ function NavTasksLists(props) {
     const activateTaskList = (e) => {
         props.setButton(
             props.navButtons.map(item => {
-                if (item.id === e.target.id) props.showCurrentTasks(item.id);
                 (item.id === e.target.id) ? item.className = 'nav-row__btn nav-row__btn--active' : item.className = 'nav-row__btn';
                 return item;
             })

@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import PropTypes from 'prop-types';
 import './TasksList.css';
 
 
@@ -93,17 +94,18 @@ function TasksList(props) {
                   <input className='checkbox-hot' type="checkbox" id={`hot_${task.id}`} defaultChecked= {task.hot ? 'checked' : ''} onChange={makeHotTask}/>
                   <label htmlFor={`hot_${task.id}`} className='tasks-list__label-hot-input' id={`labelHot_${task.id}`}></label>
                 </div>
-                <p id={`title_${task.id}`} className={"tasks-list__title" + (task.checked ? ' tasks-list__title-done' : '')} onClick={editTask}>{`${num +=1}. ${task.title}`}</p>
+                <p id={`title_${task.id}`} className={'tasks-list__title' + (task.checked ? ' tasks-list__title-done' : '')} onClick={editTask}>{`${num +=1}. ${task.title}`}</p>
                 <div className="checkbox-controls">
                   <div className="checkbox-done-box">
                     <input className='checkbox-done' type="checkbox" id={task.id} onChange={completeTheTask}/>
                     <label htmlFor={task.id} className='tasks-list__label-done-input' id={`labelDone_${task.id}`}></label>
                   </div>
-                  <button id={`delTaskBtn_${task.id}`} className='tasks-list__del-btn' onClick={clearTask}></button>
+                  <button id={`delTaskBtn_${task.id}`} className={'tasks-list__del-btn' + (task.checked ? ' del-btn__done' : '')} onClick={clearTask}></button>
                 </div>
               </div>
+              <hr />
               <div className="tasks-list__edit-box" id={`editBox_${task.id}`} ref={addRefEditBox}>
-                <textarea defaultValue={task.title} id={`textarea_${task.id}`} cols="80" rows="3" ref={addRefTextArea}></textarea>
+                <textarea defaultValue={task.title} id={`textarea_${task.id}`} rows="3" ref={addRefTextArea}></textarea>
                 <div className="tasks-list__edit-box-buttons">
                   <button className="tasks-list__btn-save" id={`saveBtn_${task.id}`} onClick={saveChangesTask}>Сохранить</button>
                   <button className="tasks-list__btn-cancel" id={`cancelBtn_${task.id}`} onClick={cancelChangesTask}>Отмена</button>
@@ -118,3 +120,9 @@ function TasksList(props) {
 }
 
 export default TasksList;
+
+TasksList.propTypes = {
+  currentTasks: PropTypes.array,
+  tasksList: PropTypes.array,
+  setTask: PropTypes.func
+};

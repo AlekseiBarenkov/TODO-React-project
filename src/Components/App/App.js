@@ -34,6 +34,7 @@ function App() {
   useEffect(()=>{
     localStorage.setItem('tasksList', JSON.stringify(tasksList));
     showCurrentTasks();
+    console.log(tasksList);
   },[tasksList, navButtons]);
 
   const findSameTasks = (str, arr) => {
@@ -125,7 +126,6 @@ function App() {
             <NavTasksLists
             navButtons={navButtons}
             setButton={setButton}
-            showCurrentTasks={showCurrentTasks}
             />
             <TasksList
             currentTasks={currentTasks}

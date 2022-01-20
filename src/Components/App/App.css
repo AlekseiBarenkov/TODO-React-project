@@ -113,3 +113,11 @@ h1, h2, h3, h4, h5, h6 {
 .wrapper.dark-theme .task-hot {
     background-color: #4f3930;
 }
+
+.wrapper.dark-theme  hr {
+    border: 1px solid #9d998e;
+}
+
+.wrapper.dark-theme textarea {
+    background-color: #9d998e;
+}
