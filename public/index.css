@@ -25,8 +25,9 @@ html, body {
     height: 100%;
     width: 100%;
     font-size: 100%;
-    line-height: 1;
+    
     font-size: 14px;
+    user-select: none;
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -38,6 +39,7 @@ input, button, textarea {
 
 button {
     cursor: pointer;
+    font-family: 'Alegreya', serif;
 }
 
 button::-moz-focus-inner {
@@ -67,9 +69,57 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===================================================================== */
+
+.wrapper {
+    padding: 25px 0;
+    font-family: 'Cormorant', serif;
+    font-size: 20px;
+    transition: all .2s;
+}
+
 .container {
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 15px 25px;
     width: 100%;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 10px rgb(80 66 34 / 20%);
+}
+
+/** ========================================= Dark Theme ============================== */
+:root{
+    --text-color: blanchedalmond;
+    --bg-color: #98895e;
+}
+.wrapper.dark-theme {
+    color: var(--text-color);
+    background-color: #09161c;
+    transition: all .2s;
+}
+
+.wrapper.dark-theme > .container {
+    background-color: rgba(255,255,255,.1);
+}
+
+.wrapper.dark-theme .input__field {
+    background-color: #9d998e;
+    color: var(--text-color);
+}
+
+.wrapper.dark-theme .input__field:hover, .wrapper.dark-theme .input__field:focus {
+    box-shadow: 0px 0px 10px 5px rgb(255 180 0 / 20%);
+}
+
+.wrapper.dark-theme button {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.wrapper.dark-theme .nav-row__btn--active{
+    background-color: rgb(172 105 22);
+    box-shadow: 0px 0px 10px 5px rgba(170, 141, 74, 0.2);
+}
+
+.wrapper.dark-theme .task-hot {
+    background-color: #4f3930;
 }
