@@ -1,9 +1,6 @@
 import React, {useContext} from 'react';
 import { ChangeThemeContext } from '../../Util/Context/ChangeThemeContext';
-
 import './Title.css';
-
-
 
 function Title(props) {
     const {handlerToggleTheme} = useContext(ChangeThemeContext);

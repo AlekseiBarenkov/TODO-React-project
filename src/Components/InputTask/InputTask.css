@@ -17,13 +17,13 @@
 }
 
 .input__field:hover {
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
-    border: 2px solid rgba(200, 255, 203, 1)
+    box-shadow: var(--box-shadow);
+    border: var(--border);
 }
 
 .input__field:focus {
-    border: 2px solid rgba(200, 255, 203, 1);
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
 }
 
 .input__add-btn {
@@ -41,7 +41,7 @@
 }
 
 .input__add-btn:hover, .input__clear-btn:hover {
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     transform: translateY(-2px);
 }
 

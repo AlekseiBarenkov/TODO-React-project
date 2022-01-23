@@ -24,11 +24,12 @@
     background-color: #fa4500;
 }
 
-.task-done > .tasks-list__item-box > .checkbox-hot-box, .task-done>  .tasks-list__item-box > .checkbox-controls > .checkbox-done-box, .task-done >  .tasks-list__item-box > input {
+.task-done > .tasks-list__item-box > .checkbox-hot-box,
+.task-done> .tasks-list__item-box > .checkbox-controls > .checkbox-done-box,
+.task-done >  .tasks-list__item-box > input {
     display: none;
 }
 
-/* *======================Checkbox hot task=================== */
 .checkbox-hot-box {
     position: relative;
 }
@@ -36,7 +37,8 @@
     opacity: 0;
 }
 
-.tasks-list__label-hot-input::before, .tasks-list__label-hot-input::after {
+.tasks-list__label-hot-input::before,
+.tasks-list__label-hot-input::after {
     position: absolute;
     content: '';
     height: 35px;
@@ -49,9 +51,10 @@
     
 }
 
-.tasks-list__label-hot-input:hover::before, .tasks-list__label-hot-input:hover::after {
+.tasks-list__label-hot-input:hover::before,
+.tasks-list__label-hot-input:hover::after {
     transform: translateY(-2px);
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     transition: all .2s;
 }
 
@@ -60,7 +63,8 @@
     background-color: white;
 }
 
-.tasks-list__label-hot-input:active::before, .tasks-list__label-hot-input:active::after {
+.tasks-list__label-hot-input:active::before,
+.tasks-list__label-hot-input:active::after {
     transform: translateY(0px);
     box-shadow: 0 0px 10px rgb(0 0 0 / 20%);
 }
@@ -82,8 +86,6 @@
     display: none;
 }
 
-/** =================================================== */
-
 .tasks-list__title {
     flex: 0 0 75%;
     font-size: 30px;
@@ -93,7 +95,9 @@
 
 .tasks-list__title:hover {
     letter-spacing: 0.1px;
-    text-shadow: 0px 4px 3px rgb(0 0 0 / 40%), 0px 8px 13px rgb(0 0 0 / 10%), 0px 18px 23px rgb(0 0 0 / 10%);
+    text-shadow: 0px 4px 3px rgb(0 0 0 / 40%),
+    0px 8px 13px rgb(0 0 0 / 10%),
+    0px 18px 23px rgb(0 0 0 / 10%);
 }
 
 .task-done>  .tasks-list__item-box > .tasks-list__title {
@@ -101,7 +105,6 @@
     margin-left: 15px;
 }
 
-/* *======================Checkbox done=================== */
 .checkbox-controls {
     position: relative;
 }
@@ -113,7 +116,8 @@
     width: 100%;
 }
 
-.tasks-list__label-done-input::before, .tasks-list__label-done-input::after {
+.tasks-list__label-done-input::before,
+.tasks-list__label-done-input::after {
     position: absolute;
     content: '';
     display: inline-block;
@@ -145,7 +149,7 @@
 
 .tasks-list__label-done-input:hover::before {
     transform: translateY(-2px);
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     
 }
 
@@ -164,8 +168,6 @@
     top: 0px;
 }
 
-/** =================================================== */
-
 .tasks-list__del-btn {
     vertical-align: text-bottom;
     position: absolute;
@@ -176,7 +178,7 @@
     border: 1px solid rgb(131, 123, 123);
     border-radius: 20%;
     background: url(../../../public/img/tasks/trash.png) center no-repeat;
-    background-color: white !important;
+    background-color: white;
     transition: all .2s;
 }
 
@@ -187,7 +189,7 @@
 
 .tasks-list__del-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
 }
 
 .tasks-list__del-btn:active {
@@ -228,7 +230,7 @@ textarea {
 }
 
 .tasks-list__edit-box-buttons > button:hover {
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     transform: translateY(-2px);
 }
 

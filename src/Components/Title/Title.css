@@ -18,7 +18,7 @@
 }
 
 .wrapper.dark-theme .toggle-theme__btn {
-    background-color: #c7d5bf !important;
+    background-color: #c7d5bf;
 }
 
 .toggle-theme__btn::before{

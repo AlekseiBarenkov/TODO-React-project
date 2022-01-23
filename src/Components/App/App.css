@@ -1,3 +1,11 @@
+:root{
+    --text-color: blanchedalmond;
+    --bg-color: #98895e;
+    --box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    --dark-theme-color: #9d998e;
+    --border: 2px solid rgba(200, 255, 203, 1);
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -49,7 +57,7 @@ button::-moz-focus-inner {
 a, a:visited {
     text-decoration: none;
 }
-  
+
 a:hover {
     text-decoration: none;
 }
@@ -58,8 +66,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: inherit;
     font-weight: inherit;
 }
-
-/* ===================================================================== */
 
 .wrapper {
     padding: 25px 0;
@@ -77,11 +83,6 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0px 0px 10px 10px rgb(80 66 34 / 20%);
 }
 
-/** ========================================= Dark Theme ============================== */
-:root{
-    --text-color: blanchedalmond;
-    --bg-color: #98895e;
-}
 .wrapper.dark-theme {
     color: var(--text-color);
     background-color: #09161c;
@@ -93,16 +94,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wrapper.dark-theme .input__field {
-    background-color: #9d998e;
+    background-color: var(--dark-theme-color);
 }
 
-.wrapper.dark-theme .input__field:hover, .wrapper.dark-theme .input__field:focus {
+.wrapper.dark-theme .input__field:hover,
+.wrapper.dark-theme .input__field:focus {
     box-shadow: 0px 0px 10px 5px rgb(255 180 0 / 20%);
 }
 
 .wrapper.dark-theme button {
     background-color: var(--bg-color);
     color: var(--text-color);
+}
+
+.wrapper.dark-theme .tasks-list__del-btn {
+    background-color: white;
 }
 
 .wrapper.dark-theme .nav-row__btn--active{
@@ -115,9 +121,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wrapper.dark-theme  hr {
-    border: 1px solid #9d998e;
+    border: 1px solid var(--dark-theme-color);
 }
 
 .wrapper.dark-theme textarea {
-    background-color: #9d998e;
+    background-color: var(--dark-theme-color);
 }

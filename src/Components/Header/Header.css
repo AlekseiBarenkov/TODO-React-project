@@ -1,9 +1,10 @@
 .header {
     margin-bottom: 45px;
-    background: url(../../../public/img/header/checklist.png) 100% 0/auto 100% no-repeat, url(../../../public/img/header/checklist.png) 0 0/auto 100% no-repeat;
+    background: url(../../../public/img/header/checklist.png) 100% 0/auto 100% no-repeat,
+    url(../../../public/img/header/checklist.png) 0 0/auto 100% no-repeat;
     min-height: 100px;
-
 }
+
 .header__title {
     font-family: 'Pattaya', sans-serif;
     font-size: 100px;

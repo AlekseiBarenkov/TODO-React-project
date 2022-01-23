@@ -18,7 +18,7 @@
 }
 
 .nav-row__btn:hover {
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     transform: translateY(-2px);
 }
 
@@ -28,6 +28,6 @@
 
 .nav-row__btn--active {
     transform: translateY(-2px);
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     background-color:  rgb(204 255 175);
 }

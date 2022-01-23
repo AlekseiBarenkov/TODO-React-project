@@ -1,31 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './NavTasksLists.css';
 
-function NavTasksLists(props) {
+const initialState = [{
+    title : 'Все задачи',
+    className : 'nav-row__btn nav-row__btn--active',
+    id : 'btn_1'
+},
+{
+    title : 'Текущие задачи',
+    className : 'nav-row__btn',
+    id : 'btn_2'
+},
+{
+    title : 'Завершенные задачи',
+    className : 'nav-row__btn',
+    id : 'btn_3'
+}];
 
+function NavTasksLists(props) {
     useEffect(()=>{
-        props.setButton([
-            {
-                title : 'Все задачи',
-                className : 'nav-row__btn nav-row__btn--active',
-                id : 'btn_1'
-            },
-            {
-                title : 'Текущие задачи',
-                className : 'nav-row__btn',
-                id : 'btn_2'
-            },
-            {
-                title : 'Завершенные задачи',
-                className : 'nav-row__btn',
-                id : 'btn_3'
-            }]);
+        props.setButton(initialState)
     },[]);
 
-    const activateTaskList = (e) => {
+    const handlerActivateTaskList = (e) => {
         props.setButton(
             props.navButtons.map(item => {
-                (item.id === e.target.id) ? item.className = 'nav-row__btn nav-row__btn--active' : item.className = 'nav-row__btn';
+                item.className = item.id === e.target.id ? 'nav-row__btn nav-row__btn--active' : 'nav-row__btn';
                 return item;
             })
         );
@@ -36,7 +36,7 @@ function NavTasksLists(props) {
             {
                 props.navButtons.map(({title, className, id}) => {
                     return (
-                        <button key={id} className={className} id={id} onClick={activateTaskList}>{title}</button>
+                        <button key={id} className={className} id={id} onClick={handlerActivateTaskList}>{title}</button>
                     )
                 })
             }
