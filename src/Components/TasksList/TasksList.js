@@ -1,8 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import './TasksList.css';
 function TasksList(props) {
   const [textareaValue, setTextareaValue] = useState('');
+
+  useEffect(() => {
+    updateEditBox();
+  }, [props.isDarkTheme, props.navButtons]);
+
+  const updateEditBox = () => {
+    props.setCurrentTasks(
+      props.currentTasks.map(item => {
+        item.editBoxItem.className = 'tasks-list__edit-box';
+        return item
+      })
+    )
+  }
 
   const findIndex = (str) => {
     return str.split('').filter(item => !isNaN(Number(item))).join('');
@@ -43,7 +56,6 @@ function TasksList(props) {
           setTextareaValue(item.title);
         }
     }
-     
 
     props.setTask(
       props.tasksList.map(item => {
@@ -62,6 +74,7 @@ function TasksList(props) {
     const text = textareaValue.trim();
 
     if (text === '') return alert('Введите текст задачи');
+
     for (let item of props.tasksList) {
       if(item.id !== idBtn && item.title === text) return alert('Такая задача уже есть');
     }
@@ -77,6 +90,7 @@ function TasksList(props) {
   };
 
   const handlerCancelChangesTask = (e) => {
+
     handlerEditTask(e);
   };
 

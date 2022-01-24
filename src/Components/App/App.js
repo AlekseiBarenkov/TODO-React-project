@@ -87,6 +87,7 @@ function App() {
 
   const showCurrentTasks = () => {
     let typeOfTasks = '';
+
     navButtons.forEach(item => {
       if(item.className === 'nav-row__btn nav-row__btn--active') typeOfTasks = item.id;
     });
@@ -132,8 +133,12 @@ function App() {
 
             <TasksList
               currentTasks={currentTasks}
+              setCurrentTasks={setCurrentTasks}
               tasksList={tasksList}
               setTask={setTaskList}
+              isDarkTheme={isDarkTheme}
+              isLoading={isLoading}
+              navButtons={navButtons}
             />
 
             <StatusTitle tasksList={tasksList}/>
