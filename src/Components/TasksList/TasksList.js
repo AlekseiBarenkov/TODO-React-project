@@ -90,7 +90,6 @@ function TasksList(props) {
   };
 
   const handlerCancelChangesTask = (e) => {
-
     handlerEditTask(e);
   };
 

@@ -12,7 +12,7 @@
     display: inline-block;
     height: 41px;
     border-radius: 10px;
-    transition: all .2s;
+    transition: var(--transition);
     border: 2px solid rgb(131, 123, 123)
 }
 
@@ -35,7 +35,7 @@
     padding: 5px 10px;
     font-size: 20px;
     border-radius: 15px;
-    transition: all .2s;
+    transition: var(--transition);
     border: 2px solid rgb(131, 123, 123);
     background-color: rgb(233 238 231);
 }

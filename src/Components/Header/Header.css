@@ -1,5 +1,5 @@
 .header {
-    margin-bottom: 45px;
+    margin: 10px 0 45px;
     background: url(../../../public/img/header/checklist.png) 100% 0/auto 100% no-repeat,
     url(../../../public/img/header/checklist.png) 0 0/auto 100% no-repeat;
     min-height: 100px;
@@ -9,5 +9,5 @@
     font-family: 'Pattaya', sans-serif;
     font-size: 100px;
     text-align: center;
-    color: #5699e2;
+    color: #551a8b;
 }

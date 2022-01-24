@@ -4,6 +4,7 @@
     --box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
     --dark-theme-color: #9d998e;
     --border: 2px solid rgba(200, 255, 203, 1);
+    --transition: all .2s;
 }
 
 * {
@@ -56,6 +57,7 @@ button::-moz-focus-inner {
 
 a, a:visited {
     text-decoration: none;
+    display: inline-block;
 }
 
 a:hover {
@@ -68,16 +70,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wrapper {
+    height: 100vh;
     padding: 25px 0;
     font-family: 'Cormorant', serif;
     font-size: 20px;
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .container {
+    position: relative;
     max-width: 900px;
     margin: 0 auto;
-    padding: 15px 25px;
+    padding: 15px 25px 15px;
     width: 100%;
     border-radius: 15px;
     box-shadow: 0px 0px 10px 10px rgb(80 66 34 / 20%);
@@ -86,11 +90,15 @@ h1, h2, h3, h4, h5, h6 {
 .wrapper.dark-theme {
     color: var(--text-color);
     background-color: #09161c;
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .wrapper.dark-theme > .container {
     background-color: rgba(255,255,255,.1);
+}
+
+.wrapper.dark-theme .header__title {
+    color: #493eff;
 }
 
 .wrapper.dark-theme .input__field {
@@ -126,4 +134,27 @@ h1, h2, h3, h4, h5, h6 {
 
 .wrapper.dark-theme textarea {
     background-color: var(--dark-theme-color);
+}
+
+.btn-to-preview-page {
+    position: absolute;
+    left: -10%;
+    top: 45%;
+    font-size: 22px;
+    color: black;
+    transition: var(--transition);
+}
+
+.btn-to-preview-page:hover {
+    transform: translateY(-2px);
+    letter-spacing: 1px;
+    text-shadow: 0px 4px 3px rgb(0 0 0 / 40%), 0px 8px 13px rgb(0 0 0 / 10%), 0px 18px 23px rgb(0 0 0 / 10%);
+}
+
+.btn-to-preview-page:active {
+    transform: translateY(0px);
+}
+
+.wrapper.dark-theme .btn-to-preview-page {
+    color: var(--text-color);
 }
