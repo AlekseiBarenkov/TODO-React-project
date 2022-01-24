@@ -5,7 +5,15 @@ function InputTask(props) {
     const inputRef = useRef(null);
 
     const handlerAddInputText = () => {
+        props.setCurrentTasks(
+            props.currentTasks.map(item => {
+                item.editBoxItem.className = 'tasks-list__edit-box';
+                return item
+            })
+        )
+
         if (inputRef.current.value === '') return alert('Введите текст задачи');
+        
         props.addTask(inputRef.current.value);
         inputRef.current.value = '';
     };

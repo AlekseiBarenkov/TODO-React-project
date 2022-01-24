@@ -27,7 +27,7 @@ function App() {
   useEffect(()=>{
     localStorage.setItem('tasksList', JSON.stringify(tasksList));
     showCurrentTasks();
-  },[tasksList, navButtons]);
+  },[tasksList, navButtons, isDarkTheme]);
 
   const findSameTasks = (str, arr) => {
     let matches = false;
@@ -117,6 +117,8 @@ function App() {
             <InputTask
               addTask={handlerAddTask}
               clearTasksList={handlerClearTasksList}
+              currentTasks={currentTasks}
+              setCurrentTasks={setCurrentTasks}
             />
 
             <ChangeThemeContext.Provider value={{handlerToggleTheme}}>
