@@ -1,6 +1,6 @@
 .tasks-box {
     min-height: 250px;
-    border: 1px solid black;
+    box-shadow: var(--box-shadow);
     border-radius: 30px;
     padding-bottom: 25px;
 }
@@ -204,10 +204,6 @@
     transition: var(--transition);
 }
 
-.tasks-list__edit-box > textarea {
-    max-height:inherit;
-}
-
 textarea {
     width: 100%;
     margin-top: 10px;
@@ -247,6 +243,6 @@ textarea {
 }
 
 .tasks-list__edit-box--active > textarea {
-    border: 1px solid black;
+    
     margin-bottom: 10px;
 }

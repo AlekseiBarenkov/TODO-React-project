@@ -1,6 +1,9 @@
 .preview {
-    max-width: 900px;
-    margin: 140px auto 0;
+    padding-top: 10%;
+    background: #FFEFBA;
+    background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);
+    background: linear-gradient(to right, #FFFFFF, #FFEFBA);
+    height: 100vh;
     width: 100%;
     text-align: center;
     font-family: 'Alegreya', serif;
@@ -52,8 +55,8 @@
     display: block;
     width: 35px;
     height: 35px;
-    border-bottom: 5px solid #551a8b;
-    border-right: 5px solid #551a8b;
+    border-bottom: var(--border-arrow);
+    border-right: var(--border-arrow);
     margin: -16px;
     animation: preview__arrow 2s infinite;
 }
