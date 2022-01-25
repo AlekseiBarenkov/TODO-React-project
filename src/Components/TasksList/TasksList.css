@@ -1,8 +1,8 @@
 .tasks-box {
+    padding: 5px 0 25px;
     min-height: 250px;
     box-shadow: var(--box-shadow);
     border-radius: 30px;
-    padding-bottom: 25px;
 }
 
 .tasks-list__item {
