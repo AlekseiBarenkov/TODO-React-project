@@ -8,6 +8,7 @@ import TasksList from '../TasksList/TasksList';
 import NavTasksLists from '../NavTasksLists/NavTasksLists';
 import StatusTitle from '../StatusTitle/StatusTitle';
 import {ChangeThemeContext} from '../../Util/Context/ChangeThemeContext';
+import { Link } from 'react-router-dom';
 import './App.css';
 
 function App() {
@@ -110,8 +111,15 @@ function App() {
     <>
       {HocLoader(isLoading, <Loader />,
         <div className={"wrapper" + (isDarkTheme ? ' dark-theme' : '')}>
+          
           <div className="container">
-
+            <Link className='btn-to-preview-page' to="/">
+            <div class="preview__arrow preview__arrow-left">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+            </div>
+            </Link>
             <Header />
 
             <InputTask
@@ -139,7 +147,6 @@ function App() {
               tasksList={tasksList}
               setTask={setTaskList}
               isDarkTheme={isDarkTheme}
-              isLoading={isLoading}
               navButtons={navButtons}
             />
 

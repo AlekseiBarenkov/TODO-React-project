@@ -1,15 +1,15 @@
 .tasks-box {
-    min-height: 350px;
-    border: 1px solid black;
+    padding: 5px 0 25px;
+    min-height: 250px;
+    box-shadow: var(--box-shadow);
     border-radius: 30px;
-    padding-bottom: 25px;
 }
 
 .tasks-list__item {
     margin: 15px 10px 0;
     border-radius: 10px;
     list-style: none;
-    transition: all .2s;
+    transition: var(--transition);
     
 }
 
@@ -55,7 +55,7 @@
 .tasks-list__label-hot-input:hover::after {
     transform: translateY(-2px);
     box-shadow: var(--box-shadow);
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .tasks-list__label-hot-input::before {
@@ -90,11 +90,11 @@
     flex: 0 0 75%;
     font-size: 30px;
     cursor: pointer;
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .tasks-list__title:hover {
-    letter-spacing: 0.1px;
+    letter-spacing: 1px;
     text-shadow: 0px 4px 3px rgb(0 0 0 / 40%),
     0px 8px 13px rgb(0 0 0 / 10%),
     0px 18px 23px rgb(0 0 0 / 10%);
@@ -122,7 +122,7 @@
     content: '';
     display: inline-block;
     cursor: pointer;
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .tasks-list__label-done-input::before {
@@ -179,7 +179,7 @@
     border-radius: 20%;
     background: url(../../../public/img/tasks/trash.png) center no-repeat;
     background-color: white;
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .del-btn__done {
@@ -201,11 +201,7 @@
     padding: 0 10px;
     max-height: 0;
     overflow: hidden;
-    transition: .1s ease-in-out;
-}
-
-.tasks-list__edit-box > textarea {
-    max-height:inherit;
+    transition: var(--transition);
 }
 
 textarea {
@@ -226,7 +222,7 @@ textarea {
     padding: 5px 10px;
     font-size: 15px;
     border-radius: 15px;
-    transition: all .2s;
+    transition: var(--transition);
 }
 
 .tasks-list__edit-box-buttons > button:hover {
@@ -247,6 +243,6 @@ textarea {
 }
 
 .tasks-list__edit-box--active > textarea {
-    border: 1px solid black;
+    
     margin-bottom: 10px;
 }

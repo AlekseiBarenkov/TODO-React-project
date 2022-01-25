@@ -12,8 +12,8 @@
     display: inline-block;
     height: 41px;
     border-radius: 10px;
-    transition: all .2s;
-    border: 2px solid rgb(131, 123, 123)
+    transition: var(--transition);
+    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
 }
 
 .input__field:hover {
@@ -35,10 +35,10 @@
     padding: 5px 10px;
     font-size: 20px;
     border-radius: 15px;
-    transition: all .2s;
-    border: 2px solid rgb(131, 123, 123);
+    transition: var(--transition);
     background-color: rgb(233 238 231);
 }
+
 
 .input__add-btn:hover, .input__clear-btn:hover {
     box-shadow: var(--box-shadow);
