@@ -1,9 +1,12 @@
+import { selectTasksList } from '../../store/reducers/tasksListSlice';
+  import { useSelector } from 'react-redux';
 import './StatusTitle.css';
 
-function StatusTitle(props) {
+function StatusTitle() {
+    const tasks = useSelector(selectTasksList);
     
     return (
-        <h2 className='status-title'>Всего задач: {props.tasksList.length}, из них выполнено: {props.tasksList.filter(task => task.isChecked).length}</h2>
+        <h2 className='status-title'>Всего задач: {tasks.length}, из них выполнено: {tasks.filter(task => task.isChecked).length}</h2>
     );
 }
 

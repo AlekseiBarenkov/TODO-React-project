@@ -1,72 +1,57 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  selectTasksList,
+  makeHotTask,
+  completeTheTask,
+  clearTask,
+  saveChangesTask
+} from '../../store/reducers/tasksListSlice';
+import { selectTextareaValue, setTextareaValue } from '../../store/reducers/othersSlice';
+import { selectCurrentTasks, editTask } from '../../store/reducers/currentTasksListSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import './TasksList.css';
-function TasksList(props) {
-  const [textareaValue, setTextareaValue] = useState('');
 
-  useEffect(() => {
-    updateEditBox();
-  }, [props.isDarkTheme, props.navButtons]);
-
-  const updateEditBox = () => {
-    props.setCurrentTasks(
-      props.currentTasks.map(item => {
-        item.editBoxItem.className = 'tasks-list__edit-box';
-        return item
-      })
-    )
-  }
+function TasksList() {
+  const tasks = useSelector(selectTasksList);
+  const currentTasks = useSelector(selectCurrentTasks);
+  const textareaValue = useSelector(selectTextareaValue);
+  const dispatch = useDispatch();
 
   const findIndex = (str) => {
     return str.split('').filter(item => !isNaN(Number(item))).join('');
   };
 
   const handlerMakeHotTask = (e) => {
-    props.setTask(
-      props.tasksList.map(item => {
-        if (item.id === +findIndex(e.target.id) && !item.isHot) {item.isHot = true;}
-        else if (item.id === +findIndex(e.target.id) && item.isHot) {item.isHot = false;}
-        return item;
-      })
-    );
+    const btnId = +findIndex(e.target.id);
+    dispatch(makeHotTask(btnId));
   };
 
   const handlerCompleteTheTask = (e) => {
-    props.setTask(
-      props.tasksList.map(item => {
-          if (item.id === +e.target.id) item.isChecked = true;
-          return item;
-      })
-    );
+    const btnId = +findIndex(e.target.id);
+    dispatch(completeTheTask(btnId));
     handlerEditTask(e);
   };
 
   const handlerClearTask = (e) => {
-    props.setTask(
-      props.tasksList.filter(item => item.id !== +findIndex(e.target.id))
-    );
+    const list = tasks.filter(item => item.id !== +findIndex(e.target.id));
+    dispatch(clearTask(list));
   };
 
   const handlerEditTask = (e) => {
-    const className = 'tasks-list__edit-box';
-    const activeClassName = 'tasks-list__edit-box tasks-list__edit-box--active';
+    const btnId = +findIndex(e.target.id);
     
-    for (let item of props.tasksList) {
-        if(item.id === +findIndex(e.target.id)) {
-          setTextareaValue(item.title);
-        }
-    }
-
-    props.setTask(
-      props.tasksList.map(item => {
-        (item.id === +findIndex(e.target.id) && !item.isChecked && item.editBoxItem.className === className) ? item.editBoxItem.className = activeClassName : item.editBoxItem.className = className;
-        return item
+    for (let item of tasks) {
+      if(item.id === +findIndex(e.target.id)) {
+        dispatch( setTextareaValue(item.title));
       }
-    ))
+    }
+    
+    dispatch(editTask(btnId));
   };
 
   const handleTextareaValue = (e) => {
-    setTextareaValue(e.target.value)
+    dispatch(setTextareaValue(e.target.value))
   }
 
   const handlerSaveChangesTask = (e) => {
@@ -75,16 +60,11 @@ function TasksList(props) {
 
     if (text === '') return alert('Введите текст задачи');
 
-    for (let item of props.tasksList) {
+    for (let item of tasks) {
       if(item.id !== idBtn && item.title === text) return alert('Такая задача уже есть');
     }
 
-    props.setTask(
-      props.tasksList.map(item => {
-        if(item.id === idBtn) item.title = text[0].toUpperCase() + textareaValue.slice(1);
-        return item;
-      })
-    );
+    dispatch(saveChangesTask(idBtn));
 
     handlerEditTask(e);
   };
@@ -97,7 +77,7 @@ function TasksList(props) {
       <div className="tasks-box">
         <ol className="tasks-list">
 
-          {props.currentTasks.map(task => 
+          {currentTasks.map(task => 
             <li
             key={task.id}
             className={"tasks-list__item" + (task.isChecked ? ' task-done' : '') + ((task.isHot && !task.isChecked) ? ' task-hot' : '')}>

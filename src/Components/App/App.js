@@ -9,148 +9,94 @@ import NavTasksLists from '../NavTasksLists/NavTasksLists';
 import StatusTitle from '../StatusTitle/StatusTitle';
 import {ChangeThemeContext} from '../../Util/Context/ChangeThemeContext';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectTasksList, setTasksList, upgradeEditTask } from '../../store/reducers/tasksListSlice';
+import { createCurrentTasks, selectNavButtons} from '../../store/reducers/currentTasksListSlice';
+import { selectIsDarkTheme, setIsDarkTheme, selectIsLoading, setIsLoading} from '../../store/reducers/othersSlice';
+
 import './App.css';
 
 function App() {
-  const [tasksList, setTaskList] = useState([]);
-  const [currentTasks, setCurrentTasks] = useState([]);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [navButtons, setNavButtons] = useState([]);
-  
+  const tasks = useSelector(selectTasksList);
+  const navButtons = useSelector(selectNavButtons);
+  const isDarkTheme = useSelector(selectIsDarkTheme);
+  const isLoading = useSelector(selectIsLoading);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const promise = new Promise((resolve, reject) => {
-      resolve(JSON.parse(localStorage.getItem('tasksList')))
+        resolve(JSON.parse(localStorage.getItem('tasksList')))
     })
-    promise.then(data => (data) && setTaskList(data)).then(setIsLoading(true))
+    promise.then(data => dispatch(setTasksList(data))).then(dispatch(setIsLoading()))
   },[]);
 
   useEffect(()=>{
-    localStorage.setItem('tasksList', JSON.stringify(tasksList));
+    localStorage.setItem('tasksList', JSON.stringify(tasks));
     showCurrentTasks();
-  },[tasksList, navButtons, isDarkTheme]);
-
-  const findSameTasks = (str, arr) => {
-    let matches = false;
-
-    for (let item of arr) {
-      if (item.title.trim().toLowerCase() === str.toLowerCase()) {
-        return matches = true;
-      }
-    }
-
-    return matches;
-  };
-
-  const handlerAddTask = (inputTask) => {
-    let taskText = inputTask.trim()[0].toUpperCase() + inputTask.slice(1);
-    const idTask = Date.now();
-    const editBoxItem = {
-      className: 'tasks-list__edit-box',
-      idEditBox: `editBox_${idTask}`,
-      idTextArea: `textarea_${idTask}`,
-      idBtnSave: `saveBtn_${idTask}`,
-      idBtnCancel: `cancelBtn_${idTask}`
-    };
-
-    if (findSameTasks(taskText, tasksList)) return alert('Такая задача уже есть');
-
-    if(inputTask){
-      const taskObj = {
-        id: idTask,
-        title: taskText,
-        isChecked: false,
-        isHot: false,
-        editBoxItem
-      };
-      
-      setTaskList([...tasksList, taskObj]);
-    }
-  };
-
-  const handlerClearTasksList = () => setTaskList([]);
+    dispatch(upgradeEditTask());
+  },[tasks, navButtons, isDarkTheme]);
 
   const sortTasks = (list) => {
     const sortTasks = [...list].sort((a, b) => {
         if (a.title > b.title) {
-          return 1;
+        return 1;
         }
 
         if (a.title < b.title) {
-          return -1;
+        return -1;
         }
         return 0;
     });
     return sortTasks;
   };
 
-  const handlerToggleTheme = () => setIsDarkTheme(!isDarkTheme);
-
   const showCurrentTasks = () => {
-    let typeOfTasks = '';
+      let typeOfTasks = '';
 
-    navButtons.forEach(item => {
-      if(item.className === 'nav-row__btn nav-row__btn--active') typeOfTasks = item.id;
-    });
+      navButtons.forEach(item => {
+          if(item.className === 'nav-row__btn nav-row__btn--active') typeOfTasks = item.id;
+      });
 
-    const hotTasksList = sortTasks(tasksList.filter(task => (!task.isChecked && task.isHot)));
-    const currentTasksList = sortTasks(tasksList.filter(task => (!task.isChecked && !task.isHot)));
-    const finishedTasksList = sortTasks(tasksList.filter(task => task.isChecked));
-    let newTasksList =[];
-    
-    if(typeOfTasks === 'btn_1') newTasksList = [...hotTasksList, ...currentTasksList, ...finishedTasksList];
+      const hotTasksList = sortTasks(tasks.filter(task => (!task.isChecked && task.isHot)));
+      const currentTasksList = sortTasks(tasks.filter(task => (!task.isChecked && !task.isHot)));
+      const finishedTasksList = sortTasks(tasks.filter(task => task.isChecked));
+      let newTasksList =[];
+      
+      if(typeOfTasks === 'btn_1') newTasksList = [...hotTasksList, ...currentTasksList, ...finishedTasksList];
 
-    if(typeOfTasks === 'btn_2') newTasksList = [...hotTasksList, ...currentTasksList];
+      if(typeOfTasks === 'btn_2') newTasksList = [...hotTasksList, ...currentTasksList];
 
-    if(typeOfTasks === 'btn_3') newTasksList = [...finishedTasksList];
+      if(typeOfTasks === 'btn_3') newTasksList = [...finishedTasksList];
 
-    setCurrentTasks(newTasksList);
+      dispatch(createCurrentTasks(newTasksList));
   };
+
+  const handlerToggleTheme = () => dispatch(setIsDarkTheme());
 
   return (
     <>
       {HocLoader(isLoading, <Loader />,
         <div className={"wrapper" + (isDarkTheme ? ' dark-theme' : '')}>
-          
           <div className="container">
-            <Link className='btn-to-preview-page' to="/">
-            <div class="preview__arrow preview__arrow-left">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-            </div>
-            </Link>
-            <Header />
 
-            <InputTask
-              addTask={handlerAddTask}
-              clearTasksList={handlerClearTasksList}
-              currentTasks={currentTasks}
-              setCurrentTasks={setCurrentTasks}
-            />
+            <Link className='btn-to-preview-page' to="/">
+              <div class="preview__arrow preview__arrow-left">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+              </div>
+            </Link>
+
+            <Header />
+            <InputTask />
 
             <ChangeThemeContext.Provider value={{handlerToggleTheme}}>
-              <Title
-                darkTheme={isDarkTheme}
-                setTheme={setIsDarkTheme}
-              />
+              <Title />
             </ChangeThemeContext.Provider>
 
-            <NavTasksLists
-              navButtons={navButtons}
-              setButton={setNavButtons}
-            />
-
-            <TasksList
-              currentTasks={currentTasks}
-              setCurrentTasks={setCurrentTasks}
-              tasksList={tasksList}
-              setTask={setTaskList}
-              isDarkTheme={isDarkTheme}
-              navButtons={navButtons}
-            />
-
-            <StatusTitle tasksList={tasksList}/>
+            <NavTasksLists />
+            <TasksList />
+            <StatusTitle />
 
           </div>
         </div>
