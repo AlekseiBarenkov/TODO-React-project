@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Loader from '../Loader/Loader';
 import HocLoader from '../../Util/Hoc/HocLoader';
 import Header from '../Header/Header';
@@ -8,7 +8,6 @@ import TasksList from '../TasksList/TasksList';
 import NavTasksLists from '../NavTasksLists/NavTasksLists';
 import StatusTitle from '../StatusTitle/StatusTitle';
 import {ChangeThemeContext} from '../../Util/Context/ChangeThemeContext';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTasksList, setTasksList, upgradeEditTask } from '../../store/reducers/tasksListSlice';
 import { createCurrentTasks, selectNavButtons} from '../../store/reducers/currentTasksListSlice';
@@ -78,14 +77,6 @@ function App() {
       {HocLoader(isLoading, <Loader />,
         <div className={"wrapper" + (isDarkTheme ? ' dark-theme' : '')}>
           <div className="container">
-
-            <Link className='btn-to-preview-page' to="/">
-              <div class="preview__arrow preview__arrow-left">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-              </div>
-            </Link>
 
             <Header />
             <InputTask />
