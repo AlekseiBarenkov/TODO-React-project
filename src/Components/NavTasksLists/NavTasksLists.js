@@ -16,7 +16,11 @@ function NavTasksLists() {
             {
                 navButtons.map(({title, className, id}) => {
                     return (
-                        <button key={id} className={className} id={id} onClick={handlerActivateTaskList}>{title}</button>
+                        <button
+                        key={id}
+                        className={className}
+                        id={id}
+                        onClick={handlerActivateTaskList}>{title}</button>
                     )
                 })
             }

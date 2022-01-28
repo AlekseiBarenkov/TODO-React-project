@@ -19,7 +19,10 @@ function PreviewPage() {
                     <span></span>
                     <span></span>
                 </div>
-                <h3 className='preview__subtitle'>created by: <span>Алексей Баренков</span></h3>
+                <h3
+                className='preview__subtitle'>
+                    created by: <span>Алексей Баренков</span>
+                </h3>
             </div>
             <Outlet/>
         </>

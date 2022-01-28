@@ -6,7 +6,11 @@ function StatusTitle() {
     const tasks = useSelector(selectTasksList);
     
     return (
-        <h2 className='status-title'>Всего задач: {tasks.length}, из них выполнено: {tasks.filter(task => task.isChecked).length}</h2>
+        <h2
+        className='status-title'>
+          Всего задач: {tasks.length},
+           из них выполнено: {tasks.filter(task => task.isChecked).length}
+        </h2>
     );
 }
 

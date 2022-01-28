@@ -5,9 +5,10 @@ import {
   makeHotTask,
   completeTheTask,
   clearTask,
-  saveChangesTask
+  saveChangesTask,
+  selectTextareaValue,
+  setTextareaValue 
 } from '../../store/reducers/tasksListSlice';
-import { selectTextareaValue, setTextareaValue } from '../../store/reducers/othersSlice';
 import { selectCurrentTasks, editTask } from '../../store/reducers/currentTasksListSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import './TasksList.css';
@@ -40,19 +41,9 @@ function TasksList() {
 
   const handlerEditTask = (e) => {
     const btnId = +findIndex(e.target.id);
-    
-    for (let item of tasks) {
-      if(item.id === +findIndex(e.target.id)) {
-        dispatch( setTextareaValue(item.title));
-      }
-    }
-    
+    dispatch(setTextareaValue(''));
     dispatch(editTask(btnId));
   };
-
-  const handleTextareaValue = (e) => {
-    dispatch(setTextareaValue(e.target.value))
-  }
 
   const handlerSaveChangesTask = (e) => {
     const idBtn = +findIndex(e.target.id);
@@ -136,10 +127,13 @@ function TasksList() {
               id={task.editBoxItem.idEditBox}>
                 
                 <textarea
-                defaultValue={task.title}
+                defaultValue={textareaValue}
                 id={task.editBoxItem.idTextArea}
                 rows="3"
-                onChange={handleTextareaValue}></textarea>
+                onChange={(el) => {
+                  let text = el.target.value
+                  dispatch(setTextareaValue(text))
+                }}></textarea>
 
                 <div className="tasks-list__edit-box-buttons">
                   

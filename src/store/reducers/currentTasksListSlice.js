@@ -50,5 +50,4 @@ export const { createCurrentTasks, setNavButtons, editTask } = currentTasksListS
 export const selectCurrentTasks = state => state.currentTasksList.currentTasks;
 export const selectNavButtons = state => state.currentTasksList.navButtons;
 
-
 export default currentTasksListSlice.reducer;

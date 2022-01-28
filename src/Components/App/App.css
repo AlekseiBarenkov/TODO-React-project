@@ -42,6 +42,7 @@ html, body {
 
 html {
     min-height: 100%;
+    overflow-y: overlay;
 }
 
 #root {

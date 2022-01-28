@@ -10,7 +10,9 @@ function Title() {
     return (
         <div className="title">
             <div className="toggle-theme">
-                <button className={"toggle-theme__btn" + (isDarkTheme ? ' dark-theme-active' : '')} onClick={handlerToggleTheme}></button>
+                <button
+                className={"toggle-theme__btn" + (isDarkTheme ? ' dark-theme-active' : '')}
+                onClick={handlerToggleTheme}></button>
             </div>
             <h2 className='tasks-lists-title'>Мои задачи</h2>
         </div>
