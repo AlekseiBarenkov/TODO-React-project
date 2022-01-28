@@ -42,6 +42,7 @@ html, body {
 
 html {
     min-height: 100%;
+    overflow-y: overlay;
 }
 
 #root {
@@ -137,10 +138,6 @@ h1, h2, h3, h4, h5, h6 {
 .wrapper.dark-theme button {
     background-color: var(--bg-color);
     color: var(--text-color);
-}
-
-.wrapper.dark-theme .tasks-list__del-btn {
-    background-color: white;
 }
 
 .wrapper.dark-theme .nav-row__btn--active{

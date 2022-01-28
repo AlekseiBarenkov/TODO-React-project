@@ -1,106 +1,110 @@
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import tasksList from '../../store/tasksList';
+import { observer } from 'mobx-react-lite';
 import './TasksList.css';
-function TasksList(props) {
-  const [textareaValue, setTextareaValue] = useState('');
 
-  useEffect(() => {
-    updateEditBox();
-  }, [props.isDarkTheme, props.navButtons]);
-
-  const updateEditBox = () => {
-    props.setCurrentTasks(
-      props.currentTasks.map(item => {
-        item.editBoxItem.className = 'tasks-list__edit-box';
-        return item
-      })
-    )
-  }
-
-  const findIndex = (str) => {
-    return str.split('').filter(item => !isNaN(Number(item))).join('');
+const TasksList = observer(() => {
+  const findIndex = (value) => {
+    if(typeof(value) === 'number') return value;
+    return value.split('').filter(item => !isNaN(Number(item))).join('');
   };
 
   const handlerMakeHotTask = (e) => {
-    props.setTask(
-      props.tasksList.map(item => {
-        if (item.id === +findIndex(e.target.id) && !item.isHot) {item.isHot = true;}
-        else if (item.id === +findIndex(e.target.id) && item.isHot) {item.isHot = false;}
-        return item;
-      })
-    );
+    const btnId = +findIndex(e.target.id);
+    tasksList.makeHotTask(btnId);
   };
 
-  const handlerCompleteTheTask = (e) => {
-    props.setTask(
-      props.tasksList.map(item => {
-          if (item.id === +e.target.id) item.isChecked = true;
-          return item;
-      })
-    );
-    handlerEditTask(e);
+  const handlerCompleteTheTask = (id) => {
+    tasksList.completeTheTask(id)
   };
 
-  const handlerClearTask = (e) => {
-    props.setTask(
-      props.tasksList.filter(item => item.id !== +findIndex(e.target.id))
-    );
+  const handlerClearTask = (id) => {
+    tasksList.clearTask(id)
   };
 
-  const handlerEditTask = (e) => {
-    const className = 'tasks-list__edit-box';
-    const activeClassName = 'tasks-list__edit-box tasks-list__edit-box--active';
-    
-    for (let item of props.tasksList) {
-        if(item.id === +findIndex(e.target.id)) {
-          setTextareaValue(item.title);
-        }
-    }
+  const handlerEditTask = (el) => {
+    const idTitle = +findIndex(el.target.id)
 
-    props.setTask(
-      props.tasksList.map(item => {
-        (item.id === +findIndex(e.target.id) && !item.isChecked && item.editBoxItem.className === className) ? item.editBoxItem.className = activeClassName : item.editBoxItem.className = className;
-        return item
-      }
-    ))
+    tasksList.editTask(idTitle);
   };
-
-  const handleTextareaValue = (e) => {
-    setTextareaValue(e.target.value)
-  }
 
   const handlerSaveChangesTask = (e) => {
     const idBtn = +findIndex(e.target.id);
-    const text = textareaValue.trim();
-
+    const text = tasksList.textareaValue.trim();
+    
     if (text === '') return alert('Введите текст задачи');
 
-    for (let item of props.tasksList) {
-      if(item.id !== idBtn && item.title === text) return alert('Такая задача уже есть');
-    }
-
-    props.setTask(
-      props.tasksList.map(item => {
-        if(item.id === idBtn) item.title = text[0].toUpperCase() + textareaValue.slice(1);
-        return item;
-      })
-    );
-
-    handlerEditTask(e);
+    tasksList.saveChangesTask(text, idBtn);
   };
 
-  const handlerCancelChangesTask = (e) => {
-    handlerEditTask(e);
+  const handlerCancelChangesTask = () => {
+    tasksList.cancelChangesTask()
   };
 
+  const sortTasks = (list) => {
+    const sortTasks = [...list].sort((a, b) => {
+        if (a.title > b.title) {
+        return 1;
+        }
+
+        if (a.title < b.title) {
+        return -1;
+        }
+        return 0;
+    });
+    return sortTasks;
+  };
+
+  const showCurrentTasks = () => {
+      const hotTasksList = sortTasks(tasksList.tasks.filter(task => (!task.isChecked && task.isHot)));
+      const currentTasksList = sortTasks(tasksList.tasks.filter(task => (!task.isChecked && !task.isHot)));
+      const finishedTasksList = sortTasks(tasksList.tasks.filter(task => task.isChecked));
+      let newTasksList =[];
+      let typeOfTasks = '';
+
+      tasksList.navButtons.forEach(item => {
+        if(item.className === 'nav-row__btn nav-row__btn--active') typeOfTasks = item.id;
+    });
+      
+      if(typeOfTasks === 'btn_1') newTasksList = [...hotTasksList, ...currentTasksList, ...finishedTasksList];
+
+      if(typeOfTasks === 'btn_2') newTasksList = [...hotTasksList, ...currentTasksList];
+
+      if(typeOfTasks === 'btn_3') newTasksList = [...finishedTasksList];
+
+      localStorage.setItem('tasksList', JSON.stringify(newTasksList))
+
+      return newTasksList;
+  };
+
+  const getClassName = (taskId) => {
+    const index = +findIndex(taskId);
+    let isChecked = false;
+    let isHot = false;
+
+    tasksList.tasks.map(item => { 
+      if(item.id === index && item.isChecked) isChecked = true;
+      if(item.id === index && item.isHot && !item.isChecked) isHot = true;
+    })
+
+    if(taskId === `title_${index}` && isChecked) return ' tasks-list__title-done';
+    if(taskId === `delTaskBtn_${index}` && isChecked) return ' del-btn__done';
+
+    if (isChecked) return (' task-done');
+
+    if (isHot && !isChecked) return (' task-hot');
+
+    return '';
+  }
+  
   return (
       <div className="tasks-box">
         <ol className="tasks-list">
 
-          {props.currentTasks.map(task => 
+          {showCurrentTasks().map(task => 
             <li
             key={task.id}
-            className={"tasks-list__item" + (task.isChecked ? ' task-done' : '') + ((task.isHot && !task.isChecked) ? ' task-hot' : '')}>
+            className={"tasks-list__item" + getClassName(task.id)}>
               
               <div className="tasks-list__item-box">
                 
@@ -121,8 +125,8 @@ function TasksList(props) {
                 
                 <p
                 id={`title_${task.id}`}
-                className={'tasks-list__title' + (task.isChecked ? ' tasks-list__title-done' : '')}
-                onClick={handlerEditTask}>{task.title}</p>
+                className={'tasks-list__title' + getClassName(`title_${task.id}`)}
+                onClick={(el) => handlerEditTask(el)}>{task.title}</p>
                 
                 <div className="checkbox-controls">
 
@@ -132,7 +136,7 @@ function TasksList(props) {
                     className='checkbox-done'
                     type="checkbox"
                     id={task.id}
-                    onChange={handlerCompleteTheTask}/>
+                    onChange={() => handlerCompleteTheTask(task.id)}/>
                     
                     <label
                     htmlFor={task.id}
@@ -142,8 +146,8 @@ function TasksList(props) {
                   
                   <button
                   id={`delTaskBtn_${task.id}`}
-                  className={'tasks-list__del-btn' + (task.isChecked ? ' del-btn__done' : '')}
-                  onClick={handlerClearTask}></button>
+                  className={'tasks-list__del-btn' + getClassName(`delTaskBtn_${task.id}`)}
+                  onClick={() => handlerClearTask(task.id)}></button>
                 
                 </div>
               
@@ -152,25 +156,22 @@ function TasksList(props) {
               <hr />
               
               <div
-              className={task.editBoxItem.className}
-              id={task.editBoxItem.idEditBox}>
+              className={task.editBoxClassName}>
                 
                 <textarea
-                defaultValue={task.title}
-                id={task.editBoxItem.idTextArea}
+                value={tasksList.textareaValue}
                 rows="3"
-                onChange={handleTextareaValue}></textarea>
+                onChange={(el) => tasksList.addTextareaValue(el)}></textarea>
 
                 <div className="tasks-list__edit-box-buttons">
                   
                   <button
                   className="tasks-list__btn-save"
-                  id={task.editBoxItem.idBtnSave}
+                  id={`saveBtn_${task.id}`}
                   onClick={handlerSaveChangesTask}>Сохранить</button>
                   
                   <button
                   className="tasks-list__btn-cancel"
-                  id={task.editBoxItem.idBtnCancel}
                   onClick={handlerCancelChangesTask}>Отмена</button>
                 
                 </div>
@@ -183,12 +184,6 @@ function TasksList(props) {
         </ol>
       </div>
   );
-}
+})
 
 export default TasksList;
-
-TasksList.propTypes = {
-  currentTasks: PropTypes.array,
-  tasksList: PropTypes.array,
-  setTask: PropTypes.func
-};

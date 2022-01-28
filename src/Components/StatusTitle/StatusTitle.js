@@ -1,10 +1,15 @@
+import { observer } from 'mobx-react-lite';
+import tasksList from '../../store/tasksList';
 import './StatusTitle.css';
 
-function StatusTitle(props) {
-    
+const StatusTitle = observer(() => {
     return (
-        <h2 className='status-title'>Всего задач: {props.tasksList.length}, из них выполнено: {props.tasksList.filter(task => task.isChecked).length}</h2>
+        <h2
+        className='status-title'>
+            Всего задач: {tasksList.tasks.length}, 
+            из них выполнено: {tasksList.tasks.filter(task => task.isChecked).length}
+        </h2>
     );
-}
+})
 
 export default StatusTitle;
