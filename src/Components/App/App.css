@@ -42,6 +42,7 @@ html, body {
 
 html {
     min-height: 100%;
+    overflow-y: overlay;
 }
 
 #root {
@@ -139,10 +140,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
 }
 
-.wrapper.dark-theme .tasks-list__del-btn {
-    background-color: white;
-}
-
 .wrapper.dark-theme .nav-row__btn--active{
     background-color: rgb(172 105 22);
     box-shadow: 0px 0px 10px 5px rgba(170, 141, 74, 0.2);
@@ -183,3 +180,4 @@ h1, h2, h3, h4, h5, h6 {
 .wrapper.dark-theme .btn-to-preview-page {
     color: var(--text-color);
 }
+

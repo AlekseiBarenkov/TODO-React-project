@@ -168,7 +168,8 @@
     top: 0px;
 }
 
-.tasks-list__del-btn {
+.tasks-list__del-btn,
+.wrapper.dark-theme .task-hot .tasks-list__del-btn {
     vertical-align: text-bottom;
     position: absolute;
     left: -40px;
@@ -178,8 +179,13 @@
     border: 1px solid rgb(131, 123, 123);
     border-radius: 20%;
     background: url(../../../public/img/tasks/trash.png) center no-repeat;
-    background-color: white;
     transition: var(--transition);
+}
+
+.tasks-list__del-btn,
+.wrapper.dark-theme .tasks-list__del-btn,
+.wrapper.dark-theme .task-hot .tasks-list__del-btn {
+    background-color: white;
 }
 
 .del-btn__done {
@@ -243,6 +249,5 @@ textarea {
 }
 
 .tasks-list__edit-box--active > textarea {
-    
     margin-bottom: 10px;
 }

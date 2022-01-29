@@ -1,106 +1,88 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  selectTasksList,
+  makeHotTask,
+  completeTheTask,
+  clearTask,
+  saveChangesTask,
+  selectTextareaValue,
+  setTextareaValue 
+} from '../../store/reducers/tasksListSlice';
+import { selectCurrentTasks, editTask } from '../../store/reducers/currentTasksListSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import './TasksList.css';
-function TasksList(props) {
-  const [textareaValue, setTextareaValue] = useState('');
 
-  useEffect(() => {
-    updateEditBox();
-  }, [props.isDarkTheme, props.navButtons]);
+function TasksList() {
+  const tasks = useSelector(selectTasksList);
+  const currentTasks = useSelector(selectCurrentTasks);
+  const textareaValue = useSelector(selectTextareaValue);
+  const dispatch = useDispatch();
 
-  const updateEditBox = () => {
-    props.setCurrentTasks(
-      props.currentTasks.map(item => {
-        item.editBoxItem.className = 'tasks-list__edit-box';
-        return item
-      })
-    )
-  }
-
-  const findIndex = (str) => {
-    return str.split('').filter(item => !isNaN(Number(item))).join('');
+  const findIndex = (value) => {
+    if(typeof(value) === 'number') return value;
+    return value.split('').filter(item => !isNaN(Number(item))).join('');
   };
 
   const handlerMakeHotTask = (e) => {
-    props.setTask(
-      props.tasksList.map(item => {
-        if (item.id === +findIndex(e.target.id) && !item.isHot) {item.isHot = true;}
-        else if (item.id === +findIndex(e.target.id) && item.isHot) {item.isHot = false;}
-        return item;
-      })
-    );
+    const btnId = +findIndex(e.target.id);
+    dispatch(makeHotTask(btnId));
   };
 
   const handlerCompleteTheTask = (e) => {
-    props.setTask(
-      props.tasksList.map(item => {
-          if (item.id === +e.target.id) item.isChecked = true;
-          return item;
-      })
-    );
+    const btnId = +findIndex(e.target.id);
+    dispatch(completeTheTask(btnId));
     handlerEditTask(e);
   };
 
-  const handlerClearTask = (e) => {
-    props.setTask(
-      props.tasksList.filter(item => item.id !== +findIndex(e.target.id))
-    );
+  const handlerClearTask = (id) => {
+    dispatch(clearTask(id));
   };
 
-  const handlerEditTask = (e) => {
-    const className = 'tasks-list__edit-box';
-    const activeClassName = 'tasks-list__edit-box tasks-list__edit-box--active';
-    
-    for (let item of props.tasksList) {
-        if(item.id === +findIndex(e.target.id)) {
-          setTextareaValue(item.title);
-        }
-    }
-
-    props.setTask(
-      props.tasksList.map(item => {
-        (item.id === +findIndex(e.target.id) && !item.isChecked && item.editBoxItem.className === className) ? item.editBoxItem.className = activeClassName : item.editBoxItem.className = className;
-        return item
-      }
-    ))
+  const handlerEditTask = (el) => {
+    const btnId = +findIndex(el.target.id);
+    dispatch(setTextareaValue(''));
+    dispatch(editTask(btnId));
   };
-
-  const handleTextareaValue = (e) => {
-    setTextareaValue(e.target.value)
-  }
 
   const handlerSaveChangesTask = (e) => {
     const idBtn = +findIndex(e.target.id);
-    const text = textareaValue.trim();
 
-    if (text === '') return alert('Введите текст задачи');
-
-    for (let item of props.tasksList) {
-      if(item.id !== idBtn && item.title === text) return alert('Такая задача уже есть');
-    }
-
-    props.setTask(
-      props.tasksList.map(item => {
-        if(item.id === idBtn) item.title = text[0].toUpperCase() + textareaValue.slice(1);
-        return item;
-      })
-    );
-
-    handlerEditTask(e);
+    dispatch(saveChangesTask(idBtn));
   };
 
   const handlerCancelChangesTask = (e) => {
     handlerEditTask(e);
   };
 
+  const getClassName = (taskId) => {
+    const index = +findIndex(taskId);
+    let isChecked = false;
+    let isHot = false;
+
+    tasks.map(item => { 
+      if(item.id === index && item.isChecked) isChecked = true;
+      if(item.id === index && item.isHot && !item.isChecked) isHot = true;
+    })
+
+    if(taskId === `title_${index}` && isChecked) return ' tasks-list__title-done';
+    if(taskId === `delTaskBtn_${index}` && isChecked) return ' del-btn__done';
+
+    if (isChecked) return (' task-done');
+
+    if (isHot && !isChecked) return (' task-hot');
+
+    return '';
+  }
+
   return (
       <div className="tasks-box">
         <ol className="tasks-list">
 
-          {props.currentTasks.map(task => 
+          {currentTasks.map(task => 
             <li
             key={task.id}
-            className={"tasks-list__item" + (task.isChecked ? ' task-done' : '') + ((task.isHot && !task.isChecked) ? ' task-hot' : '')}>
+            className={"tasks-list__item" + getClassName(task.id)}>
               
               <div className="tasks-list__item-box">
                 
@@ -121,8 +103,8 @@ function TasksList(props) {
                 
                 <p
                 id={`title_${task.id}`}
-                className={'tasks-list__title' + (task.isChecked ? ' tasks-list__title-done' : '')}
-                onClick={handlerEditTask}>{task.title}</p>
+                className={'tasks-list__title'}
+                onClick={(el) => handlerEditTask(el)}>{task.title}</p>
                 
                 <div className="checkbox-controls">
 
@@ -142,8 +124,8 @@ function TasksList(props) {
                   
                   <button
                   id={`delTaskBtn_${task.id}`}
-                  className={'tasks-list__del-btn' + (task.isChecked ? ' del-btn__done' : '')}
-                  onClick={handlerClearTask}></button>
+                  className={'tasks-list__del-btn' + getClassName(`delTaskBtn_${task.id}`)}
+                  onClick={() => handlerClearTask(task.id)}></button>
                 
                 </div>
               
@@ -152,25 +134,22 @@ function TasksList(props) {
               <hr />
               
               <div
-              className={task.editBoxItem.className}
-              id={task.editBoxItem.idEditBox}>
+              className={task.editBoxClassName}>
                 
                 <textarea
-                defaultValue={task.title}
-                id={task.editBoxItem.idTextArea}
+                value={textareaValue}
                 rows="3"
-                onChange={handleTextareaValue}></textarea>
+                onChange={(el) => {dispatch(setTextareaValue(el.target.value))}}></textarea>
 
                 <div className="tasks-list__edit-box-buttons">
                   
                   <button
                   className="tasks-list__btn-save"
-                  id={task.editBoxItem.idBtnSave}
+                  id={`saveBtn_${task.id}`}
                   onClick={handlerSaveChangesTask}>Сохранить</button>
                   
                   <button
                   className="tasks-list__btn-cancel"
-                  id={task.editBoxItem.idBtnCancel}
                   onClick={handlerCancelChangesTask}>Отмена</button>
                 
                 </div>
