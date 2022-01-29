@@ -9,8 +9,8 @@ import NavTasksLists from '../NavTasksLists/NavTasksLists';
 import StatusTitle from '../StatusTitle/StatusTitle';
 import {ChangeThemeContext} from '../../Util/Context/ChangeThemeContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectTasksList, setTasksList, upgradeEditTask } from '../../store/reducers/tasksListSlice';
-import { createCurrentTasks, selectNavButtons} from '../../store/reducers/currentTasksListSlice';
+import { selectTasksList, setTasksList } from '../../store/reducers/tasksListSlice';
+import { createCurrentTasks, selectNavButtons, editTask} from '../../store/reducers/currentTasksListSlice';
 import { selectIsDarkTheme, setIsDarkTheme, selectIsLoading, setIsLoading} from '../../store/reducers/othersSlice';
 
 import './App.css';
@@ -26,13 +26,13 @@ function App() {
     const promise = new Promise((resolve, reject) => {
         resolve(JSON.parse(localStorage.getItem('tasksList')))
     })
-    promise.then(data => dispatch(setTasksList(data))).then(dispatch(setIsLoading()))
+    promise.then(data => (data) && dispatch(setTasksList(data))).then(dispatch(setIsLoading()))
   },[]);
 
   useEffect(()=>{
     localStorage.setItem('tasksList', JSON.stringify(tasks));
     showCurrentTasks();
-    dispatch(upgradeEditTask());
+    dispatch(editTask());
   },[tasks, navButtons, isDarkTheme]);
 
   const sortTasks = (list) => {

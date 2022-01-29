@@ -37,8 +37,8 @@ export const currentTasksListSlice = createSlice({
         },
         editTask: (state, btnId) => {
             state.currentTasks.map(item => {
-                (item.id === btnId.payload && !item.isChecked && item.editBoxItem.className === className) ? 
-                item.editBoxItem.className = activeClassName : item.editBoxItem.className = className;
+                (item.id === btnId.payload && !item.isChecked && item.editBoxClassName === className) ? 
+                item.editBoxClassName = activeClassName : item.editBoxClassName = className;
                 return item;
             });
         },

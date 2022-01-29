@@ -31,24 +31,18 @@ export const tasksListSlice = createSlice({
                 return item;
             });
         },
-        clearTask: (state, list) => {
-            state.tasksList = list.payload.map(item => item);
-        },
-        upgradeEditTask: (state) => {
-            state.tasksList.map(item => {
-                item.editBoxItem.className = 'tasks-list__edit-box';
-                return item
-            });
+        clearTask: (state, id) => {
+            state.tasksList = state.tasksList.filter(item => item.id !== id.payload)
         },
         saveChangesTask: (state, btnId) => {
             const text = state.textareaValue.trim();
-            let maches = false;
 
-            state.tasksList.forEach(item => {
-                if(item.title.toLowerCase() === text.toLowerCase()) maches = true;
-            });
+            for (let item of state.tasksList) {
+                if(item.id !== btnId.payload && item.title.toLowerCase() === text.toLowerCase()) return alert('Такая задача уже есть');
+            }
             
-            if(maches) return alert('Такая задача уже есть');
+            if (text === '') return alert('Введите текст задачи');
+            
             state.tasksList.map(item => {
                 if(item.id === btnId.payload) item.title = text[0].toUpperCase() + text.slice(1);
                 return item;

@@ -26,21 +26,14 @@ function InputTask() {
         };
         
         let taskText = inputText.trim()[0].toUpperCase() + inputText.slice(1);
-        
-        const editBoxItem = {
-            className: 'tasks-list__edit-box',
-            idEditBox: `editBox_${idTask}`,
-            idTextArea: `textarea_${idTask}`,
-            idBtnSave: `saveBtn_${idTask}`,
-            idBtnCancel: `cancelBtn_${idTask}`
-        };
+
         const taskObj = {
             id: idTask,
             title: taskText,
             isChecked: false,
             isHot: false,
-            editBoxItem
-        }
+            editBoxClassName: 'tasks-list__edit-box'
+        };
 
         dispatch(addTask(taskObj));
     }
@@ -58,10 +51,7 @@ function InputTask() {
             className='input__field'
             value={inputText}
             placeholder='Введите название задачи'
-            onChange={(el) => {
-                let text = el.target.value
-                dispatch(addInputText(text))
-            }}
+            onChange={(el) => {dispatch(addInputText(el.target.value))}}
             onKeyPress={handleOnKeyPress}/>
             <div className="input__buttons-box">
                 <button

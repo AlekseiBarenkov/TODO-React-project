@@ -103,6 +103,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .container {
+    position: relative;
     padding: 15px 25px 15px;
     max-width: 900px;
     margin: 0 auto;
@@ -139,10 +140,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
 }
 
-.wrapper.dark-theme .tasks-list__del-btn {
-    background-color: white;
-}
-
 .wrapper.dark-theme .nav-row__btn--active{
     background-color: rgb(172 105 22);
     box-shadow: 0px 0px 10px 5px rgba(170, 141, 74, 0.2);
@@ -163,5 +160,24 @@ h1, h2, h3, h4, h5, h6 {
     rgba(0,0,0,0.03) 100%),
     linear-gradient(to top, rgba(255,255,255,0.1) 0%,
     rgba(143,152,157,0.60) 100%);
+}
+
+.btn-to-preview-page {
+    position: absolute;
+    left: -10%;
+    top: 45%;
+    transition: var(--transition);
+}
+
+.btn-to-preview-page:hover {
+    transform: translateX(-10px);
+}
+
+.btn-to-preview-page:active {
+    transform: translateX(0px);
+}
+
+.wrapper.dark-theme .btn-to-preview-page {
+    color: var(--text-color);
 }
 
