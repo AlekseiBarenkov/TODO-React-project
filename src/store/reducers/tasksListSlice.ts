@@ -1,27 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { TasksListState } from './interface';
+
+const initialState: TasksListState = {
+    tasksList: [],
+    textareaValue: '',
+    inputText: ''
+}
 
 export const tasksListSlice = createSlice({
     name: 'tasksList',
-    initialState: {
-        tasksList: [],
-        textareaValue: '',
-        inputText: ''
-    },
+    initialState,
     reducers: {
         addTask: (state, task) => {
             state.tasksList = [...state.tasksList, task.payload]
             state.inputText = ''
         },
         setTasksList: (state, list) => {
-            state.tasksList = list.payload.map(item => item);
+            state.tasksList = list.payload.map((item: {}) => item);
         },
         clearTasksList: state => {
             state.tasksList = [];
         },
         makeHotTask: (state, btnId) => {
             state.tasksList.map(item => {
-                if (item.id === btnId.payload && !item.isHot) {item.isHot = true;}
-                else if (item.id === btnId.payload && item.isHot) {item.isHot = false;}
+                if (item.id === btnId.payload && !item.isHot) { item.isHot = true; }
+                else if (item.id === btnId.payload && item.isHot) { item.isHot = false; }
                 return item;
             });
         },
@@ -37,14 +40,8 @@ export const tasksListSlice = createSlice({
         saveChangesTask: (state, btnId) => {
             const text = state.textareaValue.trim();
 
-            for (let item of state.tasksList) {
-                if(item.id !== btnId.payload && item.title.toLowerCase() === text.toLowerCase()) return alert('Такая задача уже есть');
-            }
-            
-            if (text === '') return alert('Введите текст задачи');
-            
             state.tasksList.map(item => {
-                if(item.id === btnId.payload) item.title = text[0].toUpperCase() + text.slice(1);
+                if (item.id === btnId.payload) item.title = text[0].toUpperCase() + text.slice(1);
                 return item;
             });
         },
@@ -64,14 +61,9 @@ export const {
     makeHotTask,
     completeTheTask,
     clearTask,
-    upgradeEditTask,
     saveChangesTask,
     setTextareaValue,
     addInputText
 } = tasksListSlice.actions;
-
-export const selectTasksList = state => state.tasksList.tasksList;
-export const selectTextareaValue = state => state.tasksList.textareaValue;
-export const selectInputText = state => state.tasksList.inputText;
 
 export default tasksListSlice.reducer;

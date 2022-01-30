@@ -1,30 +1,30 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {addTask, clearTasksList, selectTasksList, addInputText, selectInputText} from '../../store/reducers/tasksListSlice';
+import { addTask, clearTasksList, addInputText } from '../../store/reducers/tasksListSlice';
+import { RootState } from '../../store/store';
 import './InputTask.css';
 
-function InputTask() {
-    const tasks = useSelector(selectTasksList);
-    const inputText = useSelector(selectInputText);
+const InputTask: React.FC = () => {
+    const { tasksList, inputText } = useSelector((state: RootState) => state.tasksList);
     const dispatch = useDispatch();
-    
+
     const handlerAddTask = () => {
         let matches = false;
-        const idTask = Date.now();
+        const idTask = String(Date.now());
 
-        tasks.map(item => {
-            if (item.title.trim().toLowerCase() === inputText.toLowerCase()) {
+        tasksList.map(item => {
+            if (item.title.trim().toLowerCase() === inputText.toLowerCase() && !item.isChecked) {
                 matches = true;
                 return item;
             };
         });
 
-        if(matches) return alert('Такая задача уже есть');
+        if (matches) return alert('Такая задача уже есть');
 
         if (inputText === '') {
             return alert('Введите текст задачи');
         };
-        
+
         let taskText = inputText.trim()[0].toUpperCase() + inputText.slice(1);
 
         const taskObj = {
@@ -43,25 +43,25 @@ function InputTask() {
     const handleOnKeyPress = (e) => {
         if (['Enter', 'NumpadEnter'].includes(e.key)) handlerAddTask();
     };
-    
+
     return (
         <div className="input">
             <input
-            type="text"
-            className='input__field'
-            value={inputText}
-            placeholder='Введите название задачи'
-            onChange={(el) => {dispatch(addInputText(el.target.value))}}
-            onKeyPress={handleOnKeyPress}/>
+                type="text"
+                className='input__field'
+                value={inputText}
+                placeholder='Введите название задачи'
+                onChange={(el) => { dispatch(addInputText(el.target.value)) }}
+                onKeyPress={handleOnKeyPress} />
             <div className="input__buttons-box">
                 <button
-                className='input__add-btn'
-                onClick={handlerAddTask}>Добавить</button>
+                    className='input__add-btn'
+                    onClick={handlerAddTask}>Добавить</button>
                 <button
-                className='input__clear-btn'
-                onClick={handlerClearTasksList}>Очистить все</button>
+                    className='input__clear-btn'
+                    onClick={handlerClearTasksList}>Очистить все</button>
             </div>
-                
+
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import './Header.css';
 
-function Header() {
-    
+const Header: React.FC = () => {
+
     return (
         <header className='header'>
             <h1 className='header__title'>My ToDo</h1>
