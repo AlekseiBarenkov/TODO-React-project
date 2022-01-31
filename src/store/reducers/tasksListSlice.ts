@@ -23,8 +23,7 @@ export const tasksListSlice = createSlice({
         },
         makeHotTask: (state, btnId) => {
             state.tasksList.map(item => {
-                if (item.id === btnId.payload && !item.isHot) { item.isHot = true; }
-                else if (item.id === btnId.payload && item.isHot) { item.isHot = false; }
+                if (item.id === btnId.payload) item.isHot = !item.isHot;
                 return item;
             });
         },

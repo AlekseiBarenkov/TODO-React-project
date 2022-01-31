@@ -52,22 +52,19 @@ const App: React.FC = () => {
   };
 
   const showCurrentTasks = () => {
-    let typeOfTasks = '';
-
-    navButtons.forEach(item => {
-      if (item.className === 'nav-row__btn nav-row__btn--active') typeOfTasks = item.id;
-    });
-
     const hotTasksList = sortTasks(tasksList.filter(task => (!task.isChecked && task.isHot)));
     const currentTasksList = sortTasks(tasksList.filter(task => (!task.isChecked && !task.isHot)));
     const finishedTasksList = sortTasks(tasksList.filter(task => task.isChecked));
-    let newTasksList = [];
+    let newTasksList: TaskObj[] = [];
 
-    if (typeOfTasks === 'btn_1') newTasksList = [...hotTasksList, ...currentTasksList, ...finishedTasksList];
-
-    if (typeOfTasks === 'btn_2') newTasksList = [...hotTasksList, ...currentTasksList];
-
-    if (typeOfTasks === 'btn_3') newTasksList = [...finishedTasksList];
+    navButtons.forEach(item => {
+      if (item.className === 'nav-row__btn nav-row__btn--active') {
+        newTasksList =
+          (item.title === 'Все задачи') ? [...hotTasksList, ...currentTasksList, ...finishedTasksList] :
+            (item.title === 'Текущие задачи') ? [...hotTasksList, ...currentTasksList] :
+              (item.title === 'Завершенные задачи') ? [...finishedTasksList] : [];
+      }
+    });
 
     dispatch(createCurrentTasks(newTasksList));
   };
