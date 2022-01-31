@@ -52,14 +52,25 @@ const InputTask: React.FC = () => {
                 value={inputText}
                 placeholder='Введите название задачи'
                 onChange={(el) => { dispatch(addInputText(el.target.value)) }}
-                onKeyPress={handleOnKeyPress} />
+                onKeyPress={handleOnKeyPress}
+            />
+
             <div className="input__buttons-box">
+
                 <button
                     className='input__add-btn'
-                    onClick={handlerAddTask}>Добавить</button>
+                    onClick={handlerAddTask}
+                >
+                    Добавить
+                </button>
+
                 <button
                     className='input__clear-btn'
-                    onClick={handlerClearTasksList}>Очистить все</button>
+                    onClick={handlerClearTasksList}
+                >
+                    Очистить все
+                </button>
+
             </div>
 
         </div>

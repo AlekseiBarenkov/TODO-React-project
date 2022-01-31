@@ -39,14 +39,9 @@ const App: React.FC = () => {
 
   const sortTasks = (list: TaskObj[]) => {
     const sortTasks = [...list].sort((a, b) => {
-      if (a.title > b.title) {
-        return 1;
-      }
+      if (a.title > b.title) return 1;
 
-      if (a.title < b.title) {
-        return -1;
-      }
-      return 0;
+      return (a.title < b.title) ? -1 : 0;
     });
     return sortTasks;
   };

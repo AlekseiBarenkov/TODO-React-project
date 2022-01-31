@@ -111,7 +111,10 @@ const TasksList: React.FC = () => {
               <p
                 id={`title_${task.id}`}
                 className={'tasks-list__title'}
-                onClick={(el) => handlerEditTask(el)}>{task.title}</p>
+                onClick={(el) => handlerEditTask(el)}
+              >
+                {task.title}
+              </p>
 
               <div className="checkbox-controls">
 
@@ -125,14 +128,16 @@ const TasksList: React.FC = () => {
 
                   <label
                     htmlFor={task.id}
-                    className='tasks-list__label-done-input'></label>
+                    className='tasks-list__label-done-input'>
+                  </label>
 
                 </div>
 
                 <button
                   id={`delTaskBtn_${task.id}`}
                   className={'tasks-list__del-btn' + getClassName(`delTaskBtn_${task.id}`)}
-                  onClick={() => handlerClearTask(task.id)}></button>
+                  onClick={() => handlerClearTask(task.id)}>
+                </button>
 
               </div>
 
@@ -145,18 +150,25 @@ const TasksList: React.FC = () => {
 
               <textarea
                 value={textareaValue}
-                onChange={(el) => { dispatch(setTextareaValue(el.target.value)) }}></textarea>
+                onChange={(el) => { dispatch(setTextareaValue(el.target.value)) }}>
+              </textarea>
 
               <div className="tasks-list__edit-box-buttons">
 
                 <button
                   className="tasks-list__btn-save"
                   id={`saveBtn_${task.id}`}
-                  onClick={handlerSaveChangesTask}>Сохранить</button>
+                  onClick={handlerSaveChangesTask}
+                >
+                  Сохранить
+                </button>
 
                 <button
                   className="tasks-list__btn-cancel"
-                  onClick={handlerCancelChangesTask}>Отмена</button>
+                  onClick={handlerCancelChangesTask}
+                >
+                  Отмена
+                </button>
 
               </div>
 
