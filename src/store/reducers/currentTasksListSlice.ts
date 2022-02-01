@@ -1,8 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { editBoxClassName } from '../../Util/EditBoxClasses/ClassNames';
 import { CurrentTasksListState, TaskObj } from './interface';
-
-const className = 'tasks-list__edit-box';
-const activeClassName = 'tasks-list__edit-box tasks-list__edit-box--active';
 
 const initialState: CurrentTasksListState = {
     currentTasks: [],
@@ -29,19 +27,19 @@ export const currentTasksListSlice = createSlice({
     name: 'currentTasksList',
     initialState,
     reducers: {
-        createCurrentTasks: (state, newTasksList) => {
-            state.currentTasks = newTasksList.payload.map((item: {}) => item)
+        createCurrentTasks: (state, newTasksList: PayloadAction<TaskObj[]>) => {
+            state.currentTasks = newTasksList.payload.map((item: TaskObj) => item)
         },
-        setNavButtons: (state, btnId) => {
+        setNavButtons: (state, btnId: PayloadAction<string>) => {
             state.navButtons.map(item => {
                 item.className = item.id === btnId.payload ? 'nav-row__btn nav-row__btn--active' : 'nav-row__btn';
                 return item;
             })
         },
-        editTask: (state, btnId) => {
+        editTask: (state, btnId: PayloadAction<string>) => {
             state.currentTasks.map((item: TaskObj) => {
-                (item.id === btnId.payload && !item.isChecked && item.editBoxClassName === className) ?
-                    item.editBoxClassName = activeClassName : item.editBoxClassName = className;
+                (item.id === btnId.payload && !item.isChecked && item.editBoxClassName === editBoxClassName.className) ?
+                    item.editBoxClassName = editBoxClassName.activeClassName : item.editBoxClassName = editBoxClassName.className;
                 return item;
             });
         },

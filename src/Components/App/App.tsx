@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Loader from '../Loader/Loader';
 import HocLoader from '../../Util/Hoc/HocLoader';
 import Header from '../Header/Header';
@@ -7,14 +10,15 @@ import Title from '../Title/Title';
 import TasksList from '../TasksList/TasksList';
 import NavTasksLists from '../NavTasksLists/NavTasksLists';
 import StatusTitle from '../StatusTitle/StatusTitle';
+
+import { sortTasks } from '../../Util/Sorting/SortTasks';
 import { ChangeThemeContext } from '../../Util/Context/ChangeThemeContext';
-import { useSelector, useDispatch } from 'react-redux';
 import { setTasksList } from '../../store/reducers/tasksListSlice';
 import { createCurrentTasks, editTask } from '../../store/reducers/currentTasksListSlice';
 import { RootState } from '../../store/store';
 import { setIsDarkTheme, setIsLoading } from '../../store/reducers/othersSlice';
 import { TaskObj } from '../../store/reducers/interface';
-import { Link } from 'react-router-dom';
+
 
 import './App.css';
 
@@ -25,10 +29,10 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<TaskObj[]>((resolve, reject) => {
       resolve(JSON.parse(localStorage.getItem('tasksList')))
     })
-    promise.then(data => (data) && dispatch(setTasksList(data))).then(() => dispatch(setIsLoading()))
+    promise.then(data => data && dispatch(setTasksList(data))).then(() => dispatch(setIsLoading()))
   }, []);
 
   useEffect(() => {
@@ -36,15 +40,6 @@ const App: React.FC = () => {
     showCurrentTasks();
     dispatch(editTask(null));
   }, [tasksList, navButtons, isDarkTheme]);
-
-  const sortTasks = (list: TaskObj[]) => {
-    const sortTasks = [...list].sort((a, b) => {
-      if (a.title > b.title) return 1;
-
-      return (a.title < b.title) ? -1 : 0;
-    });
-    return sortTasks;
-  };
 
   const showCurrentTasks = () => {
     const hotTasksList = sortTasks(tasksList.filter(task => (!task.isChecked && task.isHot)));
@@ -65,11 +60,7 @@ const App: React.FC = () => {
   };
 
   const handlerToggleTheme = () => {
-    let darkTheme = false;
-    if (isDarkTheme) {
-      darkTheme = true
-    } else { darkTheme = false }
-    dispatch(setIsDarkTheme(darkTheme))
+    dispatch(setIsDarkTheme(!isDarkTheme))
   };
 
   return (
@@ -77,6 +68,7 @@ const App: React.FC = () => {
       {HocLoader(isLoading, <Loader />,
         <div className={"wrapper" + (isDarkTheme ? ' dark-theme' : '')}>
           <div className="container">
+
             <Link className='btn-to-preview-page' to="/">
               <div className="preview__arrow preview__arrow-left">
                 <span></span>

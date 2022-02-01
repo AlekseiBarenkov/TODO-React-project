@@ -15,7 +15,7 @@ export interface ElementValue {
 }
 
 export interface CurrentTasksListState {
-    currentTasks: [];
+    currentTasks: TaskObj[];
     navButtons: NavButtonsItems[];
 }
 

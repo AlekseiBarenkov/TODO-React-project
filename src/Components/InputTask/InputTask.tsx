@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTask, clearTasksList, addInputText } from '../../store/reducers/tasksListSlice';
 import { RootState } from '../../store/store';
+import { TaskObj } from '../../store/reducers/interface';
 import './InputTask.css';
 
 const InputTask: React.FC = () => {
@@ -27,7 +28,7 @@ const InputTask: React.FC = () => {
 
         let taskText = inputText.trim()[0].toUpperCase() + inputText.slice(1);
 
-        const taskObj = {
+        const taskObj: TaskObj = {
             id: idTask,
             title: taskText,
             isChecked: false,

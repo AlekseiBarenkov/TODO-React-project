@@ -13,7 +13,6 @@ export const othersSlice = createSlice({
     reducers: {
         setIsDarkTheme: (state, action: PayloadAction<boolean>) => {
             state.isDarkTheme = action.payload;
-            state.isDarkTheme = !state.isDarkTheme
         },
         setIsLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;

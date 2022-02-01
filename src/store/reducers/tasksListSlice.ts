@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { TasksListState } from './interface';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TasksListState, TaskObj } from './interface';
 
 const initialState: TasksListState = {
     tasksList: [],
@@ -11,32 +11,32 @@ export const tasksListSlice = createSlice({
     name: 'tasksList',
     initialState,
     reducers: {
-        addTask: (state, task) => {
+        addTask: (state, task: PayloadAction<TaskObj>) => {
             state.tasksList = [...state.tasksList, task.payload]
             state.inputText = ''
         },
-        setTasksList: (state, list) => {
-            state.tasksList = list.payload.map((item: {}) => item);
+        setTasksList: (state, list: PayloadAction<TaskObj[]>) => {
+            state.tasksList = list.payload.map(item => item);
         },
         clearTasksList: state => {
             state.tasksList = [];
         },
-        makeHotTask: (state, btnId) => {
+        makeHotTask: (state, btnId: PayloadAction<string>) => {
             state.tasksList.map(item => {
                 if (item.id === btnId.payload) item.isHot = !item.isHot;
                 return item;
             });
         },
-        completeTheTask: (state, btnId) => {
+        completeTheTask: (state, btnId: PayloadAction<string>) => {
             state.tasksList.map(item => {
                 if (item.id === btnId.payload) item.isChecked = true;
                 return item;
             });
         },
-        clearTask: (state, id) => {
+        clearTask: (state, id: PayloadAction<string>) => {
             state.tasksList = state.tasksList.filter(item => item.id !== id.payload)
         },
-        saveChangesTask: (state, btnId) => {
+        saveChangesTask: (state, btnId: PayloadAction<string>) => {
             const text = state.textareaValue.trim();
 
             state.tasksList.map(item => {
@@ -44,10 +44,10 @@ export const tasksListSlice = createSlice({
                 return item;
             });
         },
-        setTextareaValue: (state, text) => {
+        setTextareaValue: (state, text: PayloadAction<string>) => {
             state.textareaValue = text.payload;
         },
-        addInputText(state, text) {
+        addInputText(state, text: PayloadAction<string>) {
             state.inputText = text.payload
         }
     },

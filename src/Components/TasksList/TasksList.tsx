@@ -99,7 +99,6 @@ const TasksList: React.FC = () => {
                   type="checkbox"
                   id={`hot_${task.id}`}
                   checked={task.isHot}
-                  //defaultChecked={task.isHot ? 'checked' : ''}
                   onChange={handlerMakeHotTask} />
 
                 <label
