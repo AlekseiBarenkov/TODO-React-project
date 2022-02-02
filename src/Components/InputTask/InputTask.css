@@ -12,18 +12,18 @@
     display: inline-block;
     height: 41px;
     border-radius: 10px;
-    transition: all .2s;
-    border: 2px solid rgb(131, 123, 123)
+    transition: var(--transition);
+    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
 }
 
 .input__field:hover {
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
-    border: 2px solid rgba(200, 255, 203, 1)
+    box-shadow: var(--box-shadow);
+    border: var(--border);
 }
 
 .input__field:focus {
-    border: 2px solid rgba(200, 255, 203, 1);
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
 }
 
 .input__add-btn {
@@ -35,13 +35,13 @@
     padding: 5px 10px;
     font-size: 20px;
     border-radius: 15px;
-    transition: all .2s;
-    border: 2px solid rgb(131, 123, 123);
+    transition: var(--transition);
     background-color: rgb(233 238 231);
 }
 
+
 .input__add-btn:hover, .input__clear-btn:hover {
-    box-shadow: 0px 0px 10px 5px rgba(119, 99, 51, 0.2);
+    box-shadow: var(--box-shadow);
     transform: translateY(-2px);
 }
 

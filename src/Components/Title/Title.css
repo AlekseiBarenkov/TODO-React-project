@@ -1,0 +1,78 @@
+.title {
+    position: relative;
+}
+
+.toggle-theme {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+}
+
+.toggle-theme__btn {
+    position: relative;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.toggle-theme__btn::before{
+    position: absolute;
+    content: '';
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    background-color: black;
+    mask-image: url(../../../public/img/tasks/moon.svg);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size:80%;
+    top: 2px;
+    left: 2px;
+    transition: var(--transition);
+}
+.toggle-theme__btn::after{
+    position: absolute;
+    content: none;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    background-color: rgb(248, 248, 1);
+    mask-image: url(../../../public/img/tasks/sun.svg);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size:80%;
+    top: 2px;
+    left: 2px;
+    transition: var(--transition);
+}
+
+.wrapper.dark-theme .toggle-theme__btn::after{
+    content: '';
+}
+
+.wrapper.dark-theme .toggle-theme__btn::before{
+    content: none;
+}
+
+.toggle-theme__btn:hover {
+    height: 40px;
+    width: 40px;
+    box-shadow: 0px 0px 5px 5px rgb(251 102 22 / 20%);
+}
+
+.toggle-theme__btn:hover::after, .toggle-theme__btn:hover::before {
+    height: 35px;
+    width: 35px;
+}
+
+.toggle-theme__btn:hover:active {
+    transform: translateY(2px);
+}
+
+.tasks-lists-title {
+    margin-bottom: 35px;
+    font-family: 'Pattaya', sans-serif;
+    font-size: 50px;
+    text-align: center;
+}
